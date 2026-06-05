@@ -1,20 +1,23 @@
-import styles from "./Navbar.module.css";
 import Link from "next/link";
 
 export default function Navbar() {
   return (
     <>
       {/* Progressive blur background at the top */}
-      <div className={styles.topBlur}></div>
-      <nav className={styles.navbarContainer}>
-        <div className={styles.navLinks}>
-          <Link href="#how-it-works" className={styles.navItem}>How It Works</Link>
-        <Link href="#use-cases" className={styles.navItem}>Use Cases</Link>
-        <Link href="#pricing" className={styles.navItem}>Pricing</Link>
-        <Link href="#learn" className={styles.navItem}>Learn</Link>
-      </div>
-      <Link href="#signup" className={styles.signUpBtn}>Sign Up</Link>
-    </nav>
+      <div className="topBlur"></div>
+      <nav className="navbarContainer">
+        <div className="logoContainer">
+          <span className="logoText">Harsh Mishra</span>
+        </div>
+        
+        <div className="navLinks">
+          <Link href="#about" className="navItem">About Us</Link>
+          <Link href="#experiences" className="navItem">Experiences</Link>
+          <Link href="#partners" className="navItem">Partners</Link>
+        </div>
+        
+        <Link href="#contact" className="signUpBtn">Hire me</Link>
+      </nav>
     </>
   );
 }

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Playfair_Display } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
-import styles from "./Hero.module.css";
 import InteractiveVideo, { VideoState } from "./InteractiveVideo";
 
 const playfair = Playfair_Display({ subsets: ["latin"], style: "italic" });
@@ -40,27 +39,27 @@ export default function Hero() {
 
   return (
     <>
-      <section className={styles.heroSection} onPointerMove={handlePointerMove}>
+      <section className="heroSection" onPointerMove={handlePointerMove}>
         {/* Full bleed image */}
-        <div className={styles.imageBackground}>
+        <div className="imageBackground">
           <Image
             src="/Harsh-hero.png"
             alt="Harsh Hero"
             fill
             sizes="100vw"
-            className={styles.image}
+            className="image"
             priority
           />
         </div>
 
         {/* Progressive blur overlay from top */}
-        <div className={styles.progressiveBlur}></div>
+        <div className="progressiveBlur"></div>
 
         {/* Content */}
-        <div className={styles.contentContainer}>
-          <h1 className={styles.mainText}>
+        <div className="contentContainer">
+          <h1 className="mainText">
             I can{" "}
-            <span className={`${styles.cursiveWrapper} ${playfair.className}`}>
+            <span className={`cursiveWrapper ${playfair.className}`}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentWordIndex}
@@ -68,7 +67,7 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className={styles.cursiveWord}
+                  className="cursiveWord"
                   // onMouseEnter={handleMouseEnter} // Disabled for now
                 >
                   {words[currentWordIndex]}
@@ -76,7 +75,7 @@ export default function Hero() {
               </AnimatePresence>
             </span>
           </h1>
-          <p className={styles.subtitle}>
+          <p className="subtitle">
             I have multiple personalities choose one that suits your need
           </p>
         </div>

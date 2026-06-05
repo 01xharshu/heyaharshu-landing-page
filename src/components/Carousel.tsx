@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./Carousel.module.css";
 import Image from "next/image";
 import { Eye, Users } from "lucide-react";
 import workData from "../data/work.json";
@@ -42,7 +41,7 @@ export default function Carousel() {
   };
 
   return (
-    <div className={styles.carouselContainer}>
+    <div className="carouselContainer">
       {items.map((item, index) => {
         // Calculate 3D transforms based on offset from active index
         const offset = index - activeIndex;
@@ -67,20 +66,20 @@ export default function Carousel() {
         return (
           <div 
             key={item.id} 
-            className={styles.cardWrapper} 
+            className="cardWrapper" 
             style={transformStyle}
             onClick={() => handleCardClick(index)}
           >
-            <div className={`${styles.cardInner} ${isFlipped ? styles.flipped : ""}`}>
+            <div className={`cardInner ${isFlipped ? "flipped" : ""}`}>
               {/* Front side (Thumbnail) */}
-              <div className={styles.cardFront}>
+              <div className="cardFront">
                 {/* Fallback gradient if image not found */}
                 <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #1e293b, #0f172a)" }}>
                   <Image 
                     src={item.image} 
                     alt={item.title} 
                     fill 
-                    className={styles.thumbnail}
+                    className="thumbnail"
                     // Handle missing local images by hiding them and showing background
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
@@ -88,9 +87,9 @@ export default function Carousel() {
               </div>
 
               {/* Back side (Details) */}
-              <div className={styles.cardBack}>
-                <h3 className={styles.backTitle}>{item.title}</h3>
-                <p className={styles.channelName}>{item.channelName}</p>
+              <div className="cardBack">
+                <h3 className="backTitle">{item.title}</h3>
+                <p className="channelName">{item.channelName}</p>
                 <a 
                   href={item.link} 
                   target="_blank" 
@@ -105,11 +104,11 @@ export default function Carousel() {
 
             {/* Hover Data (Only visible on active, front-facing card via CSS) */}
             {offset === 0 && !isFlipped && (
-              <div className={styles.hoverButtons}>
-                <div className={styles.statButton}>
+              <div className="hoverButtons">
+                <div className="statButton">
                   <Eye size={18} /> {item.views}
                 </div>
-                <div className={styles.statButton}>
+                <div className="statButton">
                   <Users size={18} /> {item.subscribers}
                 </div>
               </div>
@@ -120,10 +119,10 @@ export default function Carousel() {
 
       {/* Basic Navigation Overlay */}
       <div style={{ position: "absolute", bottom: -80, display: "flex", gap: "2rem" }}>
-        <button className={styles.navBtn} onClick={handlePrev} disabled={activeIndex === 0}>
+        <button className="navBtn" onClick={handlePrev} disabled={activeIndex === 0}>
           &#8592;
         </button>
-        <button className={styles.navBtn} onClick={handleNext} disabled={activeIndex === items.length - 1}>
+        <button className="navBtn" onClick={handleNext} disabled={activeIndex === items.length - 1}>
           &#8594;
         </button>
       </div>

@@ -66,3 +66,460 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.18);
 }
+
+/* From Carousel.module.css */
+.workSection {
+  padding: 8rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background);
+  position: relative;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 4rem;
+  color: #fff;
+  letter-spacing: -0.03em;
+}
+
+.carouselContainer {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+.cardWrapper {
+  position: absolute;
+  width: 640px;
+  height: 360px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cardInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+}
+
+.flipped .cardInner {
+  transform: rotateY(180deg);
+}
+
+/* ─── Glass Cards ─── */
+.cardFront, .cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+  /* Glassmorphism + Skeuomorphism */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Glass back with frosted blur */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 2rem;
+  text-align: center;
+}
+
+.thumbnail {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.backTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.channelName {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+/* ─── Hover Stat Buttons — Glass Pills ─── */
+.hoverButtons {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  display: flex;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cardWrapper:hover .hoverButtons {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.statButton {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 0.01em;
+  
+  /* Glassmorphism + Skeuomorphism */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Navigation Buttons — Glass Circles ─── */
+.navControls {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+
+.navBtn {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  color: rgba(255, 255, 255, 0.6);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.4rem;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.25s ease;
+}
+
+.navBtn:hover {
+  color: #ffffff;
+  background: var(--glass-bg-hover);
+  border: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+  transform: scale(1.05);
+}
+
+.navBtn:active {
+  background: var(--glass-bg-active);
+  box-shadow: var(--glass-shadow-pressed);
+  transform: scale(0.97);
+}
+
+
+/* From Hero.module.css */
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  overflow: hidden;
+}
+
+.imageBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.image {
+  object-fit: cover !important;
+  object-position: center top !important;
+  opacity: 0.8; /* Slight dimming so text pops */
+}
+
+/* Progressive blur overlay from top */
+.progressiveBlur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  
+  /* Dark overlay fading from top to bottom, and then fading back in at the bottom */
+  background: linear-gradient(to bottom, 
+    rgba(10, 10, 10, 0.85) 0%, 
+    rgba(10, 10, 10, 0.3) 30%, 
+    transparent 50%, 
+    rgba(10, 10, 10, 0.5) 80%, 
+    rgba(10, 10, 10, 1) 100%);
+  
+  /* Applies a blur */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Masks the blur and dark overlay: black means full blur/color, transparent means none. 
+     We want it solid at top, clear in middle, solid at bottom. */
+  mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 20%, 
+    transparent 40%, 
+    transparent 60%, 
+    black 90%, 
+    black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, 
+    black 0%, 
+    black 20%, 
+    transparent 40%, 
+    transparent 60%, 
+    black 90%, 
+    black 100%);
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* Shift slightly up from absolute center for better visual balance */
+  transform: translateY(-10vh);
+  padding: 0 2rem;
+}
+
+.mainText {
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cursiveWrapper {
+  display: inline-flex;
+  min-width: 280px; /* Prevents layout shifting during animation */
+  text-align: left;
+  position: relative;
+  /* Muted pastel/gold accent color for the cursive text to match the "Design" aesthetic */
+  color: #e5d5c5;
+}
+
+.cursiveWord {
+  display: inline-block;
+  cursor: pointer;
+  /* Add a subtle text shadow so it pops against the image */
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Scroll content for testing PiP */
+.scrollContent {
+  height: 150vh;
+  padding: 4rem 10%;
+  background: var(--background);
+}
+
+.scrollHeading {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.scrollText {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 800px;
+}
+
+
+/* From Navbar.module.css */
+.topBlur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 999;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  pointer-events: none;
+}
+
+.navbarContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 1rem 4rem;
+  width: 100%;
+  
+  /* Glassmorphism full-width top bar */
+  background: rgba(10, 15, 20, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+
+.logoText {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navItem {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  font-size: clamp(0.6rem, 2vw, 0.85rem);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  color: #ffffff;
+}
+
+.signUpBtn {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  text-decoration: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px; /* Slightly rounded corners instead of full pill */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  justify-self: end; /* Align to the right in the grid */
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.signUpBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.signUpBtn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 1024px) {
+  .navbarContainer {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbarContainer {
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+  }
+  .navLinks {
+    gap: 1rem;
+  }
+  .navItem {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbarContainer {
+    padding: 1rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .logoContainer {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  .navLinks {
+    gap: 1rem;
+  }
+  .logoText {
+    font-size: 1.1rem;
+  }
+  .signUpBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}
