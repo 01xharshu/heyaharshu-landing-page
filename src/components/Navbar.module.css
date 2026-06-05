@@ -1,3 +1,17 @@
+.topBlur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 999;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  pointer-events: none;
+}
+
 .navbarContainer {
   position: fixed;
   top: 24px;
@@ -80,4 +94,31 @@
 .signUpBtn:active {
   transform: scale(0.97);
 }
+
+@media (max-width: 768px) {
+  .navbarContainer {
+    gap: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    width: 90%;
+    max-width: 400px;
+    justify-content: space-between;
+  }
+
+  .navLinks {
+    display: none; /* Hide text links on mobile to save space */
+  }
+
+  /* If we wanted to keep them but smaller, we could do: */
+  /*
+  .navLinks { gap: 0.75rem; }
+  .navItem { font-size: 0.8rem; }
+  */
+
+  .signUpBtn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    margin-left: auto;
+  }
+}
+
 
