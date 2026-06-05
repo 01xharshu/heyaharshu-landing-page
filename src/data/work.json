@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "React Performance Optimization",
+    "channelName": "Frontend Masters",
+    "views": "1.2M",
+    "subscribers": "850K",
+    "image": "/thumb1.jpg",
+    "link": "https://youtube.com/"
+  },
+  {
+    "id": "2",
+    "title": "Mastering Framer Motion 3D",
+    "channelName": "Animation Gurus",
+    "views": "800K",
+    "subscribers": "200K",
+    "image": "/thumb2.jpg",
+    "link": "https://youtube.com/"
+  },
+  {
+    "id": "3",
+    "title": "Next.js App Router Deep Dive",
+    "channelName": "Vercel",
+    "views": "2.5M",
+    "subscribers": "1.1M",
+    "image": "/thumb3.jpg",
+    "link": "https://youtube.com/"
+  },
+  {
+    "id": "4",
+    "title": "Advanced CSS Skeuomorphism",
+    "channelName": "Design Trends",
+    "views": "450K",
+    "subscribers": "150K",
+    "image": "/thumb4.jpg",
+    "link": "https://youtube.com/"
+  },
+  {
+    "id": "5",
+    "title": "Building Glassmorphism UI",
+    "channelName": "UI Wizards",
+    "views": "3.1M",
+    "subscribers": "2.5M",
+    "image": "/thumb5.jpg",
+    "link": "https://youtube.com/"
+  }
+]

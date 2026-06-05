@@ -1,0 +1,119 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  overflow: hidden;
+}
+
+.imageBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.image {
+  object-fit: cover !important;
+  object-position: center top !important;
+  opacity: 0.8; /* Slight dimming so text pops */
+}
+
+/* Progressive blur overlay from top */
+.progressiveBlur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  
+  /* Dark overlay fading from top to bottom ensures text has high contrast */
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.5) 40%, transparent 100%);
+  
+  /* Applies a blur */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Masks the blur and dark overlay so it smoothly fades to clear at the bottom */
+  mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* Shift slightly up from absolute center for better visual balance */
+  transform: translateY(-10vh);
+  padding: 0 2rem;
+}
+
+.mainText {
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cursiveWrapper {
+  display: inline-flex;
+  min-width: 280px; /* Prevents layout shifting during animation */
+  text-align: left;
+  position: relative;
+  /* Muted pastel/gold accent color for the cursive text to match the "Design" aesthetic */
+  color: #e5d5c5;
+}
+
+.cursiveWord {
+  display: inline-block;
+  cursor: pointer;
+  /* Add a subtle text shadow so it pops against the image */
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Scroll content for testing PiP */
+.scrollContent {
+  height: 150vh;
+  padding: 4rem 10%;
+  background: var(--background);
+}
+
+.scrollHeading {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.scrollText {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 800px;
+}

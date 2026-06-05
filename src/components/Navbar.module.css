@@ -1,0 +1,50 @@
+.navbarContainer {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  border-radius: 9999px;
+
+  /* Glassmorphism — frosted glass feel */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  
+  /* Skeuomorphism — physical depth via layered shadows + edge bevel */
+  box-shadow: var(--glass-shadow);
+  border: var(--glass-border);
+}
+
+.navItem {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  position: relative;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+.navItem:hover {
+  color: #ffffff;
+  background: var(--glass-bg-hover);
+  border: var(--glass-border);
+  /* Subtle inner glow — the skeuomorphic "lit from above" effect */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navItem:active {
+  background: var(--glass-bg-active);
+  box-shadow: var(--glass-shadow-pressed);
+  transform: scale(0.97);
+}
