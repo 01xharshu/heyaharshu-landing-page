@@ -276,6 +276,8 @@ a {
   object-fit: cover !important;
   object-position: center top !important;
   opacity: 0.8; /* Slight dimming so text pops */
+  filter: blur(2px); /* Gaussian blur as requested */
+  transform: scale(1.05); /* Slight scale to prevent blurred edges from showing background */
 }
 
 /* Progressive blur overlay from top */
