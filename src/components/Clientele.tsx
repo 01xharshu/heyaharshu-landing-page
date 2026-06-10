@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 const clients = [
   { name: "जोश Talks", subs: "11M+ Subscribers", img: "https://yt3.googleusercontent.com/ytc/AIdro_k93aReFkSxAcSOVQ3Hd1_V8N6gIUdwJx0DaNs3btm4GA=s160-c-k-c0x00ffffff-no-rj" },
@@ -20,6 +22,20 @@ const clients = [
 ];
 
 export default function Clientele() {
+  const [randomClients, setRandomClients] = useState(clients);
+
+  useEffect(() => {
+    const shuffle = (array: typeof clients) => {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    };
+    setRandomClients(shuffle(clients));
+  }, []);
+
   return (
     <section id="clientele" className="clienteleSection">
       <h2 className="title">Our Clientele</h2>
@@ -27,7 +43,7 @@ export default function Clientele() {
       <div className="marqueeContainer">
         <div className="marqueeRow marqueeLeftToRight">
           {/* Double the list for infinite scroll effect */}
-          {[...clients, ...clients, ...clients].map((client, i) => (
+          {[...randomClients, ...randomClients, ...randomClients].map((client, i) => (
             <div key={`r1-${i}`} className="clientCard">
               <div className="clientAvatar">
                 <img 
@@ -36,15 +52,17 @@ export default function Clientele() {
                   className="clientImage"
                 />
               </div>
-              <h3 className="clientName">{client.name}</h3>
-              <p className="clientSubs">{client.subs}</p>
+              <div className="clientInfo">
+                <h3 className="clientName">{client.name}</h3>
+                <p className="clientSubs">{client.subs}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="marqueeRow marqueeRightToLeft">
-          {/* Double the reversed list for infinite scroll effect */}
-          {[...clients.slice().reverse(), ...clients.slice().reverse(), ...clients.slice().reverse()].map((client, i) => (
+        <div className="marqueeRow marqueeRightToLeft" style={{ marginTop: '-1px' }}>
+          {/* Double the list for infinite scroll effect, reverse for variation */}
+          {[...randomClients.slice().reverse(), ...randomClients.slice().reverse(), ...randomClients.slice().reverse()].map((client, i) => (
             <div key={`r2-${i}`} className="clientCard">
               <div className="clientAvatar">
                 <img 
@@ -53,8 +71,10 @@ export default function Clientele() {
                   className="clientImage"
                 />
               </div>
-              <h3 className="clientName">{client.name}</h3>
-              <p className="clientSubs">{client.subs}</p>
+              <div className="clientInfo">
+                <h3 className="clientName">{client.name}</h3>
+                <p className="clientSubs">{client.subs}</p>
+              </div>
             </div>
           ))}
         </div>

@@ -8,15 +8,15 @@ export default function About() {
         
         <div className="aboutContent">
           <p className="aboutText">
-            My name is <span className="highlight">Harsh.</span> I'm freelance thumbnail designer, been designing <span className="highlight">since 2021.</span>
+            My name is <span className="highlight">Harsh.</span> I am a freelance thumbnail designer, and I have been designing <span className="highlight">since 2021.</span>
           </p>
           
           <p className="aboutText">
-            but, journey of learning about YouTube started, when I was in <span className="highlight">8th Standard</span> with a dream of becoming <span className="highlight">a Tech YouTuber ;)</span>
+            However, my journey of learning about YouTube started when I was in the <span className="highlight">8th Standard</span>, driven by a dream of becoming <span className="highlight">a Tech YouTuber ;)</span>
           </p>
           
           <p className="aboutText">
-            I'm super grateful that I got a chance to work with some really amazing Creators, with <span className="highlight">Audience of 20M+ & still counting ...</span>
+            I am incredibly grateful to have had the opportunity to work with some truly amazing creators, reaching a combined <span className="highlight">audience of over 20M+ and counting...</span>
           </p>
         </div>
       </div>
