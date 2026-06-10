@@ -32,7 +32,11 @@
   --accent-glow: rgba(255, 255, 255, 0.04);
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
 body {
   max-width: 100vw;
   overflow-x: hidden;
@@ -75,7 +79,8 @@ a {
   flex-direction: column;
   align-items: center;
   background: var(--background);
-  position: relative;
+  position: sticky;
+  top: 0;
   overflow: hidden;
 }
 
@@ -247,7 +252,8 @@ a {
 
 /* From Hero.module.css */
 .heroSection {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -522,4 +528,164 @@ a {
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
   }
+}
+
+/* ─── Clientele Section ─── */
+.clienteleSection {
+  padding: 8rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--background);
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+.marqueeContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  overflow: hidden;
+  position: relative;
+  padding: 2rem 0;
+  /* fade out edges */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marqueeRow {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.marqueeLeftToRight {
+  animation: scrollLR 40s linear infinite;
+}
+
+.marqueeRightToLeft {
+  animation: scrollRL 40s linear infinite;
+}
+
+.marqueeRow:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLR {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-100% / 3)); }
+}
+
+@keyframes scrollRL {
+  0% { transform: translateX(calc(-100% / 3)); }
+  100% { transform: translateX(0); }
+}
+
+.clientCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 200px;
+}
+
+.clientAvatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  background: var(--glass-bg);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.clientCard:hover .clientAvatar {
+  transform: scale(1.1);
+  border: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.marqueeContainer:hover .clientCard:not(:hover) .clientAvatar {
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.clientImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clientName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.clientSubs {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ─── About Section ─── */
+.aboutSection {
+  padding: 8rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--background);
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+.aboutContainer {
+  max-width: 900px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+  .aboutContent {
+    font-size: 1.8rem;
+    line-height: 1.7;
+  }
+}
+
+.aboutText {
+  margin: 0;
+}
+
+.aboutContent .highlight {
+  font-weight: 700;
+  color: #fff;
 }
