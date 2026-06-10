@@ -11,8 +11,8 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Work />
         <Clientele />
+        <Work />
       </main>
     </>
   );
