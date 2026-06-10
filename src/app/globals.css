@@ -726,6 +726,21 @@ a {
   grid-template-columns: 250px 1fr auto;
   border-bottom: 1px solid rgba(0,0,0,0.15);
   height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #fafafa;
+}
+
+/* Footer Grid */
+.retroFooter {
+  display: grid;
+  grid-template-columns: 250px 1fr auto;
+  border-top: 1px solid rgba(0,0,0,0.15);
+  height: 60px;
+  width: 100%;
 }
 
 .retroHeaderLogo {
@@ -784,18 +799,319 @@ a {
 
 /* Main Grid Layout */
 .retroMain {
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  width: 100%;
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+.retroSidebarLeft,
+.retroSidebarRight {
+  position: fixed;
+  top: 60px;
+  height: calc(100vh - 60px);
+  width: 250px;
+  padding: 48px 32px;
+  overflow-y: auto;
+  background: #fafafa;
+  z-index: 50;
+}
+
+.retroSidebarLeft {
+  left: 0;
+  border-right: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroSidebarRight {
+  right: 0;
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroCenter {
+  grid-column: 2;
+  padding: 48px;
+  width: 100%;
+  min-width: 0;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar Specific Styles */
+.retroSidebarTitle {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.retroSidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.retroSidebarItem {
+  margin-bottom: 16px;
+}
+
+.retroSidebarLink {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 0.9rem;
+  color: rgba(0,0,0,0.7);
+  text-decoration: none;
+  transition: color 0.2s;
   display: block;
-  min-height: calc(100vh - 60px);
 }
 
-.retroLeft {
+.retroSidebarLink:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+@media (max-width: 1100px) {
+  .retroHeader {
+    grid-template-columns: 180px 1fr auto;
+    height: 50px;
+  }
+  .retroHeaderLogo {
+    padding: 0 16px;
+    font-size: 1rem;
+  }
+  .retroNavItem {
+    padding: 0 16px;
+    font-size: 0.95rem;
+  }
+  .retroHeaderActions {
+    padding: 0 16px;
+    gap: 16px;
+  }
+  .retroMain {
+    grid-template-columns: 1fr;
+    margin-top: 50px;
+    height: calc(100vh - 50px);
+  }
+  .retroCenter {
+    grid-column: 1;
+    height: calc(100vh - 50px);
+  }
+  .retroSidebarLeft,
+  .retroSidebarRight {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .retroHeader {
+    grid-template-columns: 1fr auto;
+    height: 48px;
+  }
+  .retroHeaderLogo {
+    padding: 0 16px;
+    font-size: 0.95rem;
+    border-right: none;
+  }
+  .retroHeaderNav {
+    display: none;
+  }
+  .retroHeaderActions {
+    padding: 0 12px;
+    gap: 12px;
+  }
+  .retroNavItem {
+    padding: 0 12px;
+    font-size: 0.85rem;
+  }
+  .retroMain {
+    margin-top: 48px;
+    height: calc(100vh - 48px);
+  }
+  .retroCenter {
+    padding: 24px;
+    height: calc(100vh - 48px);
+  }
+}
+
+@media (max-width: 480px) {
+  .retroHeader {
+    height: 44px;
+  }
+  .retroHeaderLogo {
+    padding: 0 12px;
+    font-size: 0.9rem;
+  }
+  .retroHeaderActions {
+    padding: 0 8px;
+    gap: 8px;
+  }
+  .retroMain {
+    margin-top: 44px;
+    height: calc(100vh - 44px);
+  }
+  .retroCenter {
+    padding: 16px;
+    height: calc(100vh - 44px);
+  }
+}
+
+/* More About Me Cards */
+.retroAboutGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.retroAboutCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(0,0,0,0.15);
+  text-decoration: none;
+  color: #000;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.retroAboutCard:hover {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.3);
+}
+
+.retroAboutCardIcon {
+  font-size: 1.3rem;
+}
+
+.retroAboutCardTitle {
+  flex: 1;
+}
+
+.retroAboutCardArrow {
+  opacity: 0.4;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.retroAboutCard:hover .retroAboutCardArrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .retroAboutGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Subpage Center-Only Layout ─── */
+.retroSubpageMain {
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 48px;
 }
 
-.retroRight {
-  padding: 48px;
-  position: relative;
-  background-color: rgba(0,0,0,0.02);
+@media (max-width: 1100px) {
+  .retroSubpageMain {
+    margin-top: 50px;
+    height: calc(100vh - 50px);
+  }
+}
+
+@media (max-width: 768px) {
+  .retroSubpageMain {
+    margin-top: 48px;
+    height: calc(100vh - 48px);
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .retroSubpageMain {
+    margin-top: 44px;
+    height: calc(100vh - 44px);
+    padding: 16px;
+  }
+}
+
+/* ─── Places Checklist Grid ─── */
+.retroPlacesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 32px;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroPlaceItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-right: 1px solid rgba(0,0,0,0.08);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 0.95rem;
+  transition: background 0.15s;
+}
+
+.retroPlaceItem:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.retroPlaceItem.visited {
+  background: rgba(0,0,0,0.015);
+}
+
+.retroPlaceCheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.retroPlaceItem.visited .retroPlaceCheck {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.retroPlaceName {
+  color: #000;
+}
+
+.retroPlaceName.visited {
+  text-decoration: line-through;
+  color: rgba(0,0,0,0.45);
+}
+
+@media (max-width: 768px) {
+  .retroPlacesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .retroPlacesGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Typography and Content Styling */
@@ -807,9 +1123,101 @@ a {
   margin-bottom: 32px;
 }
 
+.retroSectionTitle {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* Card System */
+.retroCardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .retroCardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.retroCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,0,0,0.15);
+  background-color: #ffffff;
+  height: 100%;
+  min-width: 0;
+}
+
+.retroCardImage {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  box-sizing: border-box;
+}
+
+.retroCardContent {
+  padding: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.retroCardTitle {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.retroCardDesc {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #333333;
+}
+
+.retroCardLinks {
+  display: flex;
+  border-top: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroCardLink {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #000000;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(0,0,0,0.15);
+  transition: background-color 0.2s;
+}
+
+.retroCardLink:last-child {
+  border-right: none;
+}
+
+.retroCardLink:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
 .retroTitle {
   font-family: var(--font-geist-sans), sans-serif;
-  font-size: 5.5rem;
+  font-size: 4rem;
   line-height: 1.05;
   font-weight: 500;
   margin-bottom: 32px;
@@ -1004,29 +1412,8 @@ a {
   color: rgba(0,0,0,0.5);
 }
 
-@media (max-width: 1024px) {
-  .retroMain {
-    grid-template-columns: 1fr;
-  }
-  .retroLeft {
-    border-right: none;
-    border-bottom: 1px solid rgba(0,0,0,0.15);
-  }
-  .retroHeader {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-  .retroHeaderNav {
-    border-top: 1px solid rgba(0,0,0,0.15);
-    border-bottom: 1px solid rgba(0,0,0,0.15);
-    overflow-x: auto;
-    padding: 12px 0;
-  }
-  .retroHeaderActions {
-    padding: 16px 24px;
-    justify-content: space-between;
-  }
-}
+
+
 
 /* ─── macOS Segmented Control ─── */
 .segmentedControl {
@@ -1326,8 +1713,10 @@ a {
 }
 
 .retroSection {
-  padding: 48px;
+  padding: 48px 0;
   border-top: 1px solid rgba(0,0,0,0.15);
+  width: 100%;
+  margin-top: 32px;
 }
 
 .retroSectionTitle {

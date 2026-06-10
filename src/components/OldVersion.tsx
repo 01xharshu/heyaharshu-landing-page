@@ -6,6 +6,24 @@ import RefButton from "./RefButton";
 import Image from "next/image";
 import Link from "next/link";
 
+const designerDemos = [
+  { id: 1, image: "/thumb1.jpg", title: "ChainZoku", desc: "Antinomy Studio launched the first phase of ChainZoku's website, home of the Zokus. Pick your favorite clan between the Oni Zoku and the Boso Zoku and begin the adventure." },
+  { id: 2, image: "/thumb2.jpg", title: "CyberDeck UI", desc: "A conceptual redesign of a modern operating system using brutalist design principles and terminal-inspired typography for maximum focus." }
+];
+
+const creatorDemos = [
+  { id: 1, image: "/thumb3.jpg", title: "The State of Next.js", desc: "A deep dive into the App Router ecosystem, covering the latest paradigms in server components and edge rendering for a growing audience." },
+  { id: 2, image: "/thumb4.jpg", title: "Building Glassmorphism UI", desc: "Documenting the journey of building an open-source UI library from scratch, sharing challenges and architectural decisions." }
+];
+
+const builderDemos = [
+  { id: 1, image: "/thumb5.jpg", title: "storybook.ai", desc: "An AI-powered documentation generation tool that analyzes your component library and instantly outputs beautiful interactive docs." },
+  { id: 2, image: "/Harsh-hero.png", title: "quickplayer", desc: "A lightweight, highly customizable video player for React applications focused on performance and seamless streaming." },
+  { id: 3, image: "/thumb3.jpg", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
+  { id: 4, image: "/thumb4.jpg", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
+  { id: 5, image: "/thumb2.jpg", title: "PromptLib", desc: "Accelerate your AI workflows with our beautifully designed collection of copy-pasteable production-ready prompts.", link: "https://prompt-library-pearl.vercel.app" }
+];
+
 export default function OldVersion() {
   const { toggleVersion } = useVersion();
 
@@ -30,6 +48,9 @@ export default function OldVersion() {
           </div>
 
           <Link href="#about-me" className="retroNavItem">About Me</Link>
+          <Link href="/places" className="retroNavItem">Places</Link>
+          <Link href="/books" className="retroNavItem">Books</Link>
+          <Link href="/kamai" className="retroNavItem">Kamai</Link>
         </nav>
 
         <div className="retroHeaderActions">
@@ -41,9 +62,28 @@ export default function OldVersion() {
       {/* MAIN GRID */}
       <main className="retroMain">
         
-        {/* LEFT COLUMN - TEXT CONTENT */}
-        <section className="retroLeft">
-          <div className="retroLabel">SOFTWARE ENGINEER & MAKER / 2024 / PORTFOLIO</div>
+        {/* LEFT SIDEBAR - TOC */}
+        <aside className="retroSidebarLeft">
+          <h4 className="retroSidebarTitle">Table of Contents</h4>
+          <ul className="retroSidebarList">
+            <li className="retroSidebarItem"><Link href="#" className="retroSidebarLink">Introduction</Link></li>
+            <li className="retroSidebarItem"><Link href="#as-designer" className="retroSidebarLink">As Designer</Link></li>
+            <li className="retroSidebarItem"><Link href="#as-content-creator" className="retroSidebarLink">As Content Creator</Link></li>
+            <li className="retroSidebarItem"><Link href="#as-builder" className="retroSidebarLink">As Builder</Link></li>
+            <li className="retroSidebarItem"><Link href="#about-me" className="retroSidebarLink">More About Me</Link></li>
+          </ul>
+
+          <h4 className="retroSidebarTitle" style={{ marginTop: '48px' }}>Pages</h4>
+          <ul className="retroSidebarList">
+            <li className="retroSidebarItem"><Link href="/places" className="retroSidebarLink">Places</Link></li>
+            <li className="retroSidebarItem"><Link href="/books" className="retroSidebarLink">Books</Link></li>
+            <li className="retroSidebarItem"><Link href="/kamai" className="retroSidebarLink">Kamai</Link></li>
+          </ul>
+        </aside>
+
+        {/* CENTER COLUMN - TEXT CONTENT */}
+        <section className="retroCenter">
+
           
           <div style={{ position: 'relative', width: '100%', maxWidth: '500px', marginBottom: '2rem' }}>
             <Image 
@@ -95,118 +135,134 @@ export default function OldVersion() {
             <button className="retroButtonSecondary" onClick={() => window.open('https://twitter.com')}>Twitter</button>
           </div>
 
-          <div className="retroTableContainer">
-            <div className="retroNote">
-              <div className="retroNoteTitle">Engineer's Note</div>
-              <p style={{ fontSize: '0.8rem', lineHeight: 1.6, opacity: 0.8, fontFamily: 'var(--font-geist-mono), monospace' }}>
-                The design is structured as a technical schematic. All projects are carefully assembled from scratch, much like a handmade cyberdeck.
-              </p>
+          {/* AS DESIGNER SECTION */}
+          <section id="as-designer" className="retroSection">
+            <div className="retroLabel">PORTFOLIO / DESIGN / 2026</div>
+            <h2 className="retroSectionTitle">As Designer.</h2>
+            <p className="retroParagraph" style={{ maxWidth: '800px' }}>
+              Designing high-converting thumbnails and crafting visual identities. 
+              My approach is rooted in human psychology and data-driven design, ensuring every pixel serves a purpose.
+            </p>
+            <div className="retroCardGrid">
+              {designerDemos.map((demo) => {
+                return (
+                  <div className="retroCard" key={demo.id}>
+                    <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
+                    <div className="retroCardContent">
+                      <h3 className="retroCardTitle">{demo.title}</h3>
+                      <p className="retroCardDesc">{demo.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </section>
 
-            <div className="retroTable">
-              <div className="retroTableRow" style={{ fontWeight: 600, color: '#000000' }}>
-                <span>PROJECT</span>
-                <span>STATUS</span>
-              </div>
-              <div className="retroTableRow">
-                <span>storybook.ai</span>
-                <span>Shipped</span>
-              </div>
-              <div className="retroTableRow">
-                <span>quickplayer</span>
-                <span>10k+ Users</span>
-              </div>
-              <div className="retroTableRow">
-                <span>kabir chatbot</span>
-                <span>100+ Lives Impacted</span>
-              </div>
-              <div className="retroTableRow">
-                <span>Read Write Own</span>
-                <span>Currently Reading</span>
-              </div>
+          {/* AS CONTENT CREATOR SECTION */}
+          <section id="as-content-creator" className="retroSection">
+            <div className="retroLabel">PORTFOLIO / CONTENT / 2026</div>
+            <h2 className="retroSectionTitle">As Content Creator.</h2>
+            <p className="retroParagraph" style={{ maxWidth: '800px' }}>
+              Sharing my journey, learnings, and insights with a growing community. 
+              From breaking down complex technical concepts to documenting the process of building products from scratch.
+            </p>
+            <div className="retroCardGrid">
+              {creatorDemos.map((demo) => {
+                return (
+                  <div className="retroCard" key={demo.id}>
+                    <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
+                    <div className="retroCardContent">
+                      <h3 className="retroCardTitle">{demo.title}</h3>
+                      <p className="retroCardDesc">{demo.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
+          </section>
+
+          {/* AS BUILDER SECTION */}
+          <section id="as-builder" className="retroSection">
+            <div className="retroLabel">PORTFOLIO / ENGINEERING / 2026</div>
+            <h2 className="retroSectionTitle">As Builder.</h2>
+            <p className="retroParagraph" style={{ maxWidth: '800px' }}>
+              Writing code, designing systems, and bringing ideas to life.
+              I focus on creating seamless user experiences powered by robust and scalable architecture.
+            </p>
+            <div className="retroCardGrid">
+              {builderDemos.map((demo) => {
+                return (
+                  <div className="retroCard" key={demo.id}>
+                    <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
+                    <div className="retroCardContent">
+                      <h3 className="retroCardTitle">{demo.title}</h3>
+                      <p className="retroCardDesc">{demo.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* MORE ABOUT ME SECTION */}
+          <section id="about-me" className="retroSection">
+            <div className="retroLabel">ABOUT / PERSONAL / 2026</div>
+            <h2 className="retroSectionTitle">More About Me.</h2>
+            <p className="retroParagraph" style={{ maxWidth: '800px' }}>
+              Beyond the screen, I&apos;m someone who loves exploring new places, reading books that challenge my thinking, 
+              and constantly learning about how the world works. I believe in building things that matter and sharing the journey along the way.
+            </p>
+            <div className="retroAboutGrid">
+              <Link href="/places" className="retroAboutCard">
+                <span className="retroAboutCardIcon">📍</span>
+                <span className="retroAboutCardTitle">Places</span>
+                <span className="retroAboutCardArrow">→</span>
+              </Link>
+              <Link href="/books" className="retroAboutCard">
+                <span className="retroAboutCardIcon">📚</span>
+                <span className="retroAboutCardTitle">Books</span>
+                <span className="retroAboutCardArrow">→</span>
+              </Link>
+              <Link href="/kamai" className="retroAboutCard">
+                <span className="retroAboutCardIcon">💰</span>
+                <span className="retroAboutCardTitle">Kamai</span>
+                <span className="retroAboutCardArrow">→</span>
+              </Link>
+            </div>
+          </section>
+
         </section>
 
-        {/* AS DESIGNER SECTION */}
-        <section id="as-designer" className="retroSection">
-          <div className="retroLabel">PORTFOLIO / DESIGN / 2024</div>
-          <h2 className="retroSectionTitle">As Designer.</h2>
-          <p className="retroParagraph" style={{ maxWidth: '800px' }}>
-            Designing high-converting thumbnails and crafting visual identities. 
-            My approach is rooted in human psychology and data-driven design, ensuring every pixel serves a purpose.
-          </p>
-          <div className="retroTableContainer">
-            <div className="retroTable">
-              <div className="retroTableRow" style={{ fontWeight: 600, color: '#000000' }}>
-                <span>CLIENT / PROJECT</span>
-                <span>METRICS</span>
-              </div>
-              <div className="retroTableRow">
-                <span>Vercel</span>
-                <span>2.5M+ Views</span>
-              </div>
-              <div className="retroTableRow">
-                <span>Frontend Masters</span>
-                <span>1.2M+ Views</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* AS CONTENT CREATOR SECTION */}
-        <section id="as-content-creator" className="retroSection">
-          <div className="retroLabel">PORTFOLIO / CONTENT / 2024</div>
-          <h2 className="retroSectionTitle">As Content Creator.</h2>
-          <p className="retroParagraph" style={{ maxWidth: '800px' }}>
-            Sharing my journey, learnings, and insights with a growing community. 
-            From breaking down complex technical concepts to documenting the process of building products from scratch.
-          </p>
-          <div className="retroTableContainer">
-            <div className="retroTable">
-              <div className="retroTableRow" style={{ fontWeight: 600, color: '#000000' }}>
-                <span>PLATFORM</span>
-                <span>AUDIENCE</span>
-              </div>
-              <div className="retroTableRow">
-                <span>YouTube</span>
-                <span>50k+ Subscribers</span>
-              </div>
-              <div className="retroTableRow">
-                <span>Twitter / X</span>
-                <span>15k+ Followers</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* AS BUILDER SECTION */}
-        <section id="as-builder" className="retroSection">
-          <div className="retroLabel">PORTFOLIO / ENGINEERING / 2024</div>
-          <h2 className="retroSectionTitle">As Builder.</h2>
-          <p className="retroParagraph" style={{ maxWidth: '800px' }}>
-            Writing code, designing systems, and bringing ideas to life.
-            I focus on creating seamless user experiences powered by robust and scalable architecture.
-          </p>
-          <div className="retroTableContainer">
-            <div className="retroTable">
-              <div className="retroTableRow" style={{ fontWeight: 600, color: '#000000' }}>
-                <span>PRODUCT</span>
-                <span>STATUS</span>
-              </div>
-              <div className="retroTableRow">
-                <span>storybook.ai</span>
-                <span>Shipped - Active</span>
-              </div>
-              <div className="retroTableRow">
-                <span>quickplayer</span>
-                <span>10k+ MAU</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* RIGHT SIDEBAR - LATEST */}
+        <aside className="retroSidebarRight">
+          <h4 className="retroSidebarTitle">Latest</h4>
+          <ul className="retroSidebarList">
+            <li className="retroSidebarItem"><a href="https://prompt-library-pearl.vercel.app" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">PromptLib</a></li>
+            <li className="retroSidebarItem"><a href="https://www.figma.com/community/plugin/1644918796465469562/texometric" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Texometric Plugin</a></li>
+            <li className="retroSidebarItem"><a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Carousel Export Plugin</a></li>
+          </ul>
+        </aside>
 
       </main>
+
+      {/* FOOTER BAR */}
+      <footer className="retroFooter">
+        <div className="retroHeaderLogo" style={{ fontSize: '0.8rem', opacity: 0.6 }}>
+          © 2026 Harsh
+        </div>
+        
+        <nav className="retroHeaderNav">
+          <Link href="https://twitter.com" className="retroNavItem">Twitter</Link>
+          <Link href="https://github.com" className="retroNavItem">GitHub</Link>
+          <Link href="https://linkedin.com" className="retroNavItem">LinkedIn</Link>
+        </nav>
+
+        <div className="retroHeaderActions">
+          <div className="retroNavItem" style={{ opacity: 0.6, fontSize: '0.8rem', pointerEvents: 'none' }}>
+            System Online
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
