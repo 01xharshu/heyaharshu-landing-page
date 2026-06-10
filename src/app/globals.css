@@ -707,10 +707,10 @@ a {
 
 /* ─── Retro Schematic Context ─── */
 .retroWrapper {
-  background-color: #E3DFD2;
+  background-color: #ffffff;
   min-height: 100vh;
   width: 100%;
-  color: #2D2C2A;
+  color: #000000;
   font-family: var(--font-geist-mono), monospace;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -778,7 +778,7 @@ a {
 .retroStatusDot {
   width: 8px;
   height: 8px;
-  background-color: #DE4E25;
+  background-color: #666666;
   border-radius: 50%;
 }
 
@@ -817,7 +817,7 @@ a {
 }
 
 .retroTitle span {
-  color: #DE4E25;
+  color: #666666;
 }
 
 .retroParagraph {
@@ -866,8 +866,8 @@ a {
 }
 
 .retroButtonPrimary {
-  background-color: #DE4E25;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
   border: none;
   padding: 12px 24px;
   font-family: inherit;
@@ -918,7 +918,7 @@ a {
 
 .retroNoteTitle {
   font-size: 0.8rem;
-  color: #DE4E25;
+  color: #666666;
   text-transform: uppercase;
   margin-bottom: 16px;
   text-decoration: underline;
@@ -940,7 +940,7 @@ a {
 }
 
 .retroTableRow span:last-child {
-  color: #DE4E25;
+  color: #666666;
   text-align: right;
   max-width: 50%;
 }
@@ -1279,4 +1279,61 @@ a {
     flex-direction: column;
     gap: 2rem;
   }
+}
+
+/* ─── Retro Dropdown & Sections ─── */
+.retroDropdownContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.retroDropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  min-width: 250px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.retroDropdownContainer:hover .retroDropdownMenu {
+  display: flex;
+}
+
+.retroDropdownCard {
+  padding: 24px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  color: #000;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.retroDropdownCard:hover {
+  background: rgba(0,0,0,0.03);
+}
+
+.retroDropdownCard:last-child {
+  border-bottom: none;
+}
+
+.retroSection {
+  padding: 48px;
+  border-top: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroSectionTitle {
+  font-size: 3.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-geist-sans), sans-serif;
+  letter-spacing: -0.02em;
 }
