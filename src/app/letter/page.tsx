@@ -1,6 +1,7 @@
 "use client";
 
 import RetroSubpageLayout from "@/components/RetroSubpageLayout";
+import Image from "next/image";
 
 export default function LetterPage() {
   return (
@@ -32,6 +33,11 @@ export default function LetterPage() {
           <p className="retroParagraph" style={{ maxWidth: '800px' }}>
             I was deep in thought before writing this: if we consider 0 (zero) as the origin, then I will always consider my parents and friends as my 0th Asset, the real valuables I have. From childhood up to this age, the friends I&apos;ve had shaped who I am today.
           </p>
+
+          <div className="retroLetterImageWrapper">
+            <Image src="/Me and Harshit.png" alt="Me and Harshit" width={800} height={600} className="retroLetterImage" />
+            <div className="retroLetterImageOverlay">Me and my friend Harshit (R to L), 2021</div>
+          </div>
         </div>
 
         <div id="evidence" style={{ paddingTop: '48px' }}>

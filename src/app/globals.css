@@ -1626,6 +1626,50 @@ a {
   .refButtonIcon { width: 36px; }
 }
 
+/* Letter Image Hover Effect */
+.retroLetterImageWrapper {
+  position: relative;
+  display: block;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.retroLetterImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.retroLetterImageWrapper:hover .retroLetterImage {
+  filter: grayscale(0%);
+}
+
+.retroLetterImageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 48px 16px 16px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+  color: white;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 0.95rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.retroLetterImageWrapper:hover .retroLetterImageOverlay {
+  opacity: 1;
+}
+
 /* ─── Footer ─── */
 .footerContainer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
