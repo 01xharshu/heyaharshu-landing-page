@@ -19,7 +19,8 @@ const places = [
   { name: "Bali", visited: false },
   { name: "Thailand", visited: false },
   { name: "Dubai", visited: false },
-];
+  { name: "Kathmandu", visited: true },
+].sort((a, b) => Number(b.visited) - Number(a.visited));
 
 export default function PlacesPage() {
   return (

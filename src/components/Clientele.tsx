@@ -38,7 +38,7 @@ export default function Clientele() {
 
   return (
     <section id="clientele" className="clienteleSection">
-      <h2 className="title">Our Clientele</h2>
+      <h2 className="title">Trusted by</h2>
       
       <div className="marqueeContainer">
         <div className="marqueeRow marqueeLeftToRight">

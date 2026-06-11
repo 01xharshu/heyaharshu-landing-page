@@ -6,22 +6,13 @@ import RefButton from "./RefButton";
 import Image from "next/image";
 import Link from "next/link";
 
-const designerDemos = [
-  { id: 1, image: "/thumb1.jpg", title: "ChainZoku", desc: "Antinomy Studio launched the first phase of ChainZoku's website, home of the Zokus. Pick your favorite clan between the Oni Zoku and the Boso Zoku and begin the adventure." },
-  { id: 2, image: "/thumb2.jpg", title: "CyberDeck UI", desc: "A conceptual redesign of a modern operating system using brutalist design principles and terminal-inspired typography for maximum focus." }
-];
-
-const creatorDemos = [
-  { id: 1, image: "/thumb3.jpg", title: "The State of Next.js", desc: "A deep dive into the App Router ecosystem, covering the latest paradigms in server components and edge rendering for a growing audience." },
-  { id: 2, image: "/thumb4.jpg", title: "Building Glassmorphism UI", desc: "Documenting the journey of building an open-source UI library from scratch, sharing challenges and architectural decisions." }
-];
+const designerDemos: any[] = [];
+const creatorDemos: any[] = [];
 
 const builderDemos = [
-  { id: 1, image: "/thumb5.jpg", title: "storybook.ai", desc: "An AI-powered documentation generation tool that analyzes your component library and instantly outputs beautiful interactive docs." },
-  { id: 2, image: "/Harsh-hero.png", title: "quickplayer", desc: "A lightweight, highly customizable video player for React applications focused on performance and seamless streaming." },
-  { id: 3, image: "/thumb3.jpg", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
-  { id: 4, image: "/thumb4.jpg", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
-  { id: 5, image: "/thumb2.jpg", title: "PromptLib", desc: "Accelerate your AI workflows with our beautifully designed collection of copy-pasteable production-ready prompts.", link: "https://prompt-library-pearl.vercel.app" }
+  { id: 1, image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
+  { id: 2, image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
+  { id: 3, image: "/thumb2.jpg", title: "Prompt Library", desc: "Accelerate your AI workflows with our beautifully designed collection of copy-pasteable production-ready prompts.", link: "https://prompt-library-pearl.vercel.app" }
 ];
 
 export default function OldVersion() {
@@ -51,6 +42,7 @@ export default function OldVersion() {
           <Link href="/places" className="retroNavItem">Places</Link>
           <Link href="/books" className="retroNavItem">Books</Link>
           <Link href="/kamai" className="retroNavItem">Kamai</Link>
+          <Link href="/letter" className="retroNavItem">Letter</Link>
         </nav>
 
         <div className="retroHeaderActions">
@@ -78,6 +70,7 @@ export default function OldVersion() {
             <li className="retroSidebarItem"><Link href="/places" className="retroSidebarLink">Places</Link></li>
             <li className="retroSidebarItem"><Link href="/books" className="retroSidebarLink">Books</Link></li>
             <li className="retroSidebarItem"><Link href="/kamai" className="retroSidebarLink">Kamai</Link></li>
+            <li className="retroSidebarItem"><Link href="/letter" className="retroSidebarLink">Letter</Link></li>
           </ul>
         </aside>
 
@@ -192,13 +185,13 @@ export default function OldVersion() {
             <div className="retroCardGrid">
               {builderDemos.map((demo) => {
                 return (
-                  <div className="retroCard" key={demo.id}>
+                  <a href={demo.link} target="_blank" rel="noopener noreferrer" className="retroCard" key={demo.id} style={{ textDecoration: 'none' }}>
                     <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
                     <div className="retroCardContent">
                       <h3 className="retroCardTitle">{demo.title}</h3>
                       <p className="retroCardDesc">{demo.desc}</p>
                     </div>
-                  </div>
+                  </a>
                 );
               })}
             </div>
@@ -237,9 +230,12 @@ export default function OldVersion() {
         <aside className="retroSidebarRight">
           <h4 className="retroSidebarTitle">Latest</h4>
           <ul className="retroSidebarList">
-            <li className="retroSidebarItem"><a href="https://prompt-library-pearl.vercel.app" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">PromptLib</a></li>
+            <li className="retroSidebarItem" style={{ display: 'flex', alignItems: 'center' }}>
+              <a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Carousel Export Plugin</a>
+              <a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noopener noreferrer" className="retroUpdatedBadge">Updated</a>
+            </li>
+            <li className="retroSidebarItem"><a href="https://prompt-library-pearl.vercel.app" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Prompt Library</a></li>
             <li className="retroSidebarItem"><a href="https://www.figma.com/community/plugin/1644918796465469562/texometric" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Texometric Plugin</a></li>
-            <li className="retroSidebarItem"><a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noopener noreferrer" className="retroSidebarLink">Carousel Export Plugin</a></li>
           </ul>
         </aside>
 
@@ -258,9 +254,6 @@ export default function OldVersion() {
         </nav>
 
         <div className="retroHeaderActions">
-          <div className="retroNavItem" style={{ opacity: 0.6, fontSize: '0.8rem', pointerEvents: 'none' }}>
-            System Online
-          </div>
         </div>
       </footer>
     </div>

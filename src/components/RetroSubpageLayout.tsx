@@ -36,6 +36,7 @@ export default function RetroSubpageLayout({ children }: RetroSubpageLayoutProps
           <Link href="/places" className="retroNavItem">Places</Link>
           <Link href="/books" className="retroNavItem">Books</Link>
           <Link href="/kamai" className="retroNavItem">Kamai</Link>
+          <Link href="/letter" className="retroNavItem">Letter</Link>
         </nav>
 
         <div className="retroHeaderActions">
@@ -61,9 +62,6 @@ export default function RetroSubpageLayout({ children }: RetroSubpageLayoutProps
         </nav>
 
         <div className="retroHeaderActions">
-          <div className="retroNavItem" style={{ opacity: 0.6, fontSize: '0.8rem', pointerEvents: 'none' }}>
-            System Online
-          </div>
         </div>
       </footer>
     </div>

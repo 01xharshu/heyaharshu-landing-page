@@ -800,7 +800,7 @@ a {
 /* Main Grid Layout */
 .retroMain {
   display: grid;
-  grid-template-columns: 250px 1fr 250px;
+  grid-template-columns: 250px 1fr 320px;
   width: 100%;
   margin-top: 60px;
   height: calc(100vh - 60px);
@@ -812,7 +812,6 @@ a {
   position: fixed;
   top: 60px;
   height: calc(100vh - 60px);
-  width: 250px;
   padding: 48px 32px;
   overflow-y: auto;
   background: #fafafa;
@@ -820,11 +819,13 @@ a {
 }
 
 .retroSidebarLeft {
+  width: 250px;
   left: 0;
   border-right: 1px solid rgba(0,0,0,0.15);
 }
 
 .retroSidebarRight {
+  width: 320px;
   right: 0;
   border-left: 1px solid rgba(0,0,0,0.15);
 }
@@ -871,6 +872,29 @@ a {
 .retroSidebarLink:hover {
   color: #000;
   text-decoration: underline;
+}
+
+.retroUpdatedBadge {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: opacity 0.2s;
+}
+
+.retroUpdatedBadge:hover {
+  opacity: 0.8;
+  color: #fff;
+  text-decoration: none;
 }
 
 @media (max-width: 1100px) {
@@ -1135,7 +1159,7 @@ a {
 .retroCardGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 0;
   margin-top: 32px;
   width: 100%;
   min-width: 0;
@@ -1154,21 +1178,34 @@ a {
   background-color: #ffffff;
   height: 100%;
   min-width: 0;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.retroCard:hover {
+  transform: scale(0.98);
+  box-shadow: inset 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .retroCardImage {
   width: 100%;
   height: 160px;
   object-fit: contain;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   border-bottom: 1px solid rgba(0,0,0,0.15);
   box-sizing: border-box;
+  filter: grayscale(100%);
 }
 
 .retroCardContent {
   padding: 16px;
   flex: 1;
   min-width: 0;
+  transition: background-color 0.2s ease;
+}
+
+.retroCard:hover .retroCardContent {
+  background-color: #000000;
 }
 
 .retroCardTitle {
@@ -1178,6 +1215,11 @@ a {
   color: #000000;
   margin-bottom: 8px;
   letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.retroCard:hover .retroCardTitle {
+  color: #ffffff;
 }
 
 .retroCardDesc {
@@ -1185,6 +1227,11 @@ a {
   font-size: 0.85rem;
   line-height: 1.5;
   color: #333333;
+  transition: color 0.2s ease;
+}
+
+.retroCard:hover .retroCardDesc {
+  color: #eaeaea;
 }
 
 .retroCardLinks {
@@ -1559,6 +1606,24 @@ a {
 
 .refButton:active {
   transform: scale(0.97);
+}
+
+@media (max-width: 1100px) {
+  .refButton { height: 44px; }
+  .refButtonText { padding: 0 24px; font-size: 1rem; }
+  .refButtonIcon { width: 44px; }
+}
+
+@media (max-width: 768px) {
+  .refButton { height: 40px; }
+  .refButtonText { padding: 0 16px; font-size: 0.9rem; }
+  .refButtonIcon { width: 40px; }
+}
+
+@media (max-width: 480px) {
+  .refButton { height: 36px; }
+  .refButtonText { padding: 0 12px; font-size: 0.85rem; }
+  .refButtonIcon { width: 36px; }
 }
 
 /* ─── Footer ─── */
