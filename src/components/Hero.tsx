@@ -8,7 +8,7 @@ import FloatingCards from "./FloatingCards";
 
 const playfair = Playfair_Display({ subsets: ["latin"], style: "italic" });
 
-const words = ["Design", "Build Product", "Vibe Code", "Create Content"];
+const words = ["design", "build product", "vibe code", "create content"];
 
 export default function Hero() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -108,9 +108,9 @@ export default function Hero() {
         }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h1 className="mainText">
+        <h1 className="mainText" style={{ color: "#bbb" }}>
           I can{" "}
-          <span className={`cursiveWrapper ${playfair.className}`}>
+          <span className={`cursiveWrapper ${playfair.className}`} style={{ color: "#fff" }}>
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentWordIndex}

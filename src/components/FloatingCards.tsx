@@ -8,7 +8,6 @@ import Image from "next/image";
 interface PersonaCard {
   id: string;
   title: string;
-  subtitle: string;
   image: string;
   route: string;
 }
@@ -16,22 +15,19 @@ interface PersonaCard {
 const personas: PersonaCard[] = [
   {
     id: "contentcreator",
-    title: "The Content\nCreator",
-    subtitle: "Document reality and craft compelling narratives.",
+    title: "Content creator",
     image: "/cards/content.png",
     route: "/portfolio/contentcreator",
   },
   {
     id: "designer",
-    title: "Bring Vision\nto Life",
-    subtitle: "Shape imagination with color and boundless creativity.",
+    title: "Designer",
     image: "/cards/design.png",
     route: "/portfolio/designer",
   },
   {
     id: "builder",
-    title: "Build With\nYour Mind",
-    subtitle: "Shape the world with skill, precision, and craft.",
+    title: "Builder",
     image: "/cards/build.png",
     route: "/portfolio/builder",
   }
@@ -97,13 +93,6 @@ export default function FloatingCards({ visible }: FloatingCardsProps) {
               }}
               onClick={() => handleCardClick(persona)}
             >
-              <div className="arenaCardLogo">
-                <svg viewBox="0 0 24 24" width="18" height="18">
-                    <path d="M19 11h-6V5h-3v6H4v3h6v6h3v-6h6v-3z" fill="#fff"/>
-                </svg>
-                ar3na
-              </div>
-              
               <div className="arenaCardImageWrapper">
                 <Image
                   src={persona.image}
@@ -117,14 +106,8 @@ export default function FloatingCards({ visible }: FloatingCardsProps) {
               
               <div className="arenaCardContent">
                 <h2 className="arenaCardTitle">
-                  {persona.title.split('\n').map((line, i) => (
-                    <span key={i}>
-                      {line}
-                      {i < persona.title.split('\n').length - 1 && <br />}
-                    </span>
-                  ))}
+                  {persona.title}
                 </h2>
-                <p className="arenaCardSubtitle">{persona.subtitle}</p>
               </div>
             </motion.div>
           ))}
