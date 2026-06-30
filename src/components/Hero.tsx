@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Playfair_Display } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
-import InteractiveVideo, { VideoState } from "./InteractiveVideo";
+import FloatingCards from "./FloatingCards";
 
 const playfair = Playfair_Display({ subsets: ["latin"], style: "italic" });
 
 const words = ["Design", "Build Product", "Vibe Code", "Create Content"];
 
 export default function Hero() {
-  const [videoState, setVideoState] = useState<VideoState>("hidden");
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [cardsVisible, setCardsVisible] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,71 +21,117 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    // Interactive video temporarily disabled
-    // if (videoState === "floating" || videoState === "hidden") {
-    //   setMousePos({ x: e.clientX, y: e.clientY });
-    // }
-  };
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      // Prevent page scrolling
+      e.preventDefault();
 
-  const handleMouseEnter = (e: React.MouseEvent) => {
-    // Interactive video temporarily disabled
-    // if (videoState === "hidden") {
-    //   setVideoState("floating");
-    //   setMousePos({ x: e.clientX, y: e.clientY });
-    // }
-  };
+      if (e.deltaY > 0 && !cardsVisible) {
+        // Scrolling down — show cards
+        setCardsVisible(true);
+      } else if (e.deltaY < 0 && cardsVisible) {
+        // Scrolling up — hide cards
+        setCardsVisible(false);
+      }
+    },
+    [cardsVisible]
+  );
+
+  useEffect(() => {
+    // Use passive: false so we can preventDefault
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [handleWheel]);
+
+  // Also handle touch swipe for mobile
+  useEffect(() => {
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const touchDelta = touchStartY - e.touches[0].clientY;
+      if (touchDelta > 30 && !cardsVisible) {
+        setCardsVisible(true);
+      } else if (touchDelta < -30 && cardsVisible) {
+        setCardsVisible(false);
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [cardsVisible]);
 
   return (
-    <>
-      <section className="heroSection" onPointerMove={handlePointerMove}>
-        {/* Full bleed image */}
-        <div className="imageBackground">
-          <Image
-            src="/Harsh-hero.png"
-            alt="Harsh Hero"
-            fill
-            sizes="100vw"
-            className="image"
-            priority
+    <section className="heroSection heroSectionLocked">
+      {/* Full bleed image */}
+      <div className={`imageBackground ${cardsVisible ? "imageGreyscale" : ""}`}>
+        <Image
+          src="/Harsh-hero.png"
+          alt="Harsh Hero"
+          fill
+          sizes="100vw"
+          className="image"
+          priority
+        />
+      </div>
+
+      {/* Progressive blur overlay from top */}
+      <div className={`progressiveBlur ${cardsVisible ? "progressiveBlurDimmed" : ""}`}></div>
+
+      {/* Dark overlay that appears when cards show */}
+      <AnimatePresence>
+        {cardsVisible && (
+          <motion.div
+            className="heroDarkOverlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           />
-        </div>
+        )}
+      </AnimatePresence>
 
-        {/* Progressive blur overlay from top */}
-        <div className="progressiveBlur"></div>
+      {/* Content — fades out when cards appear */}
+      <motion.div
+        className="contentContainer"
+        animate={{
+          opacity: cardsVisible ? 0 : 1,
+          y: cardsVisible ? -40 : 0,
+          filter: cardsVisible ? "blur(8px)" : "blur(0px)",
+        }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <h1 className="mainText">
+          I can{" "}
+          <span className={`cursiveWrapper ${playfair.className}`}>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentWordIndex}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="cursiveWord"
+              >
+                {words[currentWordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </h1>
+        <p className="subtitle">
+          I have multiple personalities choose one that suits your need
+        </p>
+      </motion.div>
 
-        {/* Content */}
-        <div className="contentContainer">
-          <h1 className="mainText">
-            I can{" "}
-            <span className={`cursiveWrapper ${playfair.className}`}>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={currentWordIndex}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="cursiveWord"
-                  // onMouseEnter={handleMouseEnter} // Disabled for now
-                >
-                  {words[currentWordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-          </h1>
-          <p className="subtitle">
-            I have multiple personalities choose one that suits your need
-          </p>
-        </div>
-      </section>
-
-      {/* Interactive video is temporarily hidden as requested */}
-      {/* <InteractiveVideo
-        videoState={videoState}
-        setVideoState={setVideoState}
-        mousePos={mousePos}
-      /> */}
-    </>
+      {/* Floating Cards */}
+      <FloatingCards visible={cardsVisible} />
+    </section>
   );
 }

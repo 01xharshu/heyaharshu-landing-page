@@ -3,11 +3,7 @@
 import Navbar from "@/components/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Work from "@/components/Work";
-import Clientele from "@/components/Clientele";
 import OldVersion from "@/components/OldVersion";
-import Footer from "@/components/Footer";
 import { useVersion } from "@/context/VersionContext";
 
 export default function Home() {
@@ -36,11 +32,7 @@ export default function Home() {
           <Navbar />
           <main>
             <Hero />
-            <About />
-            <Clientele />
-            <Work />
           </main>
-          <Footer />
         </motion.div>
       )}
     </AnimatePresence>
