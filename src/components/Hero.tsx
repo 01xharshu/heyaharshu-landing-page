@@ -10,9 +10,13 @@ const playfair = Playfair_Display({ subsets: ["latin"], style: "italic" });
 
 const words = ["design", "build product", "vibe code", "create content"];
 
-export default function Hero() {
+interface HeroProps {
+  cardsVisible: boolean;
+  setCardsVisible: (visible: boolean) => void;
+}
+
+export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [cardsVisible, setCardsVisible] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -108,7 +112,7 @@ export default function Hero() {
         }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h1 className="mainText" style={{ color: "#bbb" }}>
+        <h1 className="mainText" style={{ color: "#d0d0d0ff" }}>
           I can{" "}
           <span className={`cursiveWrapper ${playfair.className}`} style={{ color: "#fff" }}>
             <AnimatePresence mode="wait">

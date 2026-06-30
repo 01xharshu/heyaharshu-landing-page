@@ -71,8 +71,25 @@ export default function FloatingCards({ visible }: FloatingCardsProps) {
             filter: isTransitioning ? "blur(20px)" : "none",
             transform: isTransitioning ? "scale(1.1)" : "scale(1)",
             transition: "filter 0.4s ease, transform 0.4s ease",
+            flexDirection: "column",
           }}
         >
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{
+              fontFamily: '"Times New Roman", Times, serif',
+              fontSize: '52px',
+              color: '#000',
+              marginBottom: '30px',
+              fontWeight: 500
+            }}
+          >
+            Choose one Personality
+          </motion.h2>
+          <div style={{ display: "flex", gap: "30px", flexWrap: "wrap", justifyContent: "center" }}>
           {personas.map((persona, index) => (
             <motion.div
               key={persona.id}
@@ -111,6 +128,7 @@ export default function FloatingCards({ visible }: FloatingCardsProps) {
               </div>
             </motion.div>
           ))}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

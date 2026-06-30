@@ -82,9 +82,6 @@ a {
   flex-direction: column;
   align-items: center;
   background: var(--background);
-  position: sticky;
-  top: 0;
-  overflow: hidden;
 }
 
 .title {
@@ -470,9 +467,26 @@ a {
 }
 
 .arenaCard:hover {
-  transform: translateY(-5px) !important; /* Override framer-motion inline transform slightly if possible, or just let framer handle it. It's fine since it applies to hover */
+  transform: translateY(-10px) scale(1.05) !important;
   box-shadow: 0 15px 35px rgba(0,0,0,0.6);
   z-index: 30;
+}
+
+.floatingCardsContainer:has(.arenaCard:hover) .arenaCard:not(:hover) {
+  opacity: 0.8;
+  transform: scale(0.95) !important;
+}
+
+.floatingCardsContainer:has(.arenaCard:hover) .arenaCard:not(:hover) .arenaCardImage {
+  filter: grayscale(100%) contrast(0.5) brightness(1.8);
+}
+
+.floatingCardsContainer:has(.arenaCard:hover) .arenaCard:not(:hover) .arenaFadeOverlay {
+  opacity: 0.15;
+}
+
+.floatingCardsContainer:has(.arenaCard:hover) .arenaCard:not(:hover) .arenaCardContent {
+  opacity: 0.3;
 }
 
 .arenaCardLogo {
@@ -505,7 +519,7 @@ a {
 .arenaCardImage {
   object-fit: cover;
   object-position: center 20%;
-  filter: grayscale(100%) contrast(1.1) brightness(0.6);
+  filter: grayscale(100%) contrast(1.05) brightness(0.85);
   transition: filter 0.5s ease;
 }
 
@@ -870,9 +884,6 @@ a {
   justify-content: center;
   align-items: center;
   background: var(--background);
-  position: sticky;
-  top: 0;
-  overflow: hidden;
 }
 
 .marqueeContainer {
@@ -989,16 +1000,12 @@ a {
 
 /* ─── About Section ─── */
 .aboutSection {
-  padding: 8rem 0;
-  min-height: 100vh;
+  padding: 2rem 0 8rem;
+  min-height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background: var(--background);
-  position: sticky;
-  top: 0;
-  overflow: hidden;
 }
 
 .aboutContainer {

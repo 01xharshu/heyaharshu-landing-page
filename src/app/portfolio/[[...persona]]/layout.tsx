@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-
 export default function PortfolioLayout({
   children,
 }: {
@@ -7,7 +5,6 @@ export default function PortfolioLayout({
 }) {
   return (
     <>
-      <Navbar />
       {children}
     </>
   );
