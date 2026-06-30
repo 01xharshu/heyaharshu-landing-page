@@ -10,9 +10,9 @@ const designerDemos: any[] = [];
 const creatorDemos: any[] = [];
 
 const builderDemos = [
-  { id: 1, image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
-  { id: 2, image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
-  { id: 3, image: "/thumb2.jpg", title: "Prompt Library", desc: "Accelerate your AI workflows with our beautifully designed collection of copy-pasteable production-ready prompts.", link: "https://prompt-library-pearl.vercel.app" }
+  { id: 1, image: "/thumb2.jpg", title: "Video Transcribe", desc: "Transcribe videos directly on your Mac. A simple and efficient tool for video creators.", link: "https://video-transcribe-mac.vercel.app/" },
+  { id: 2, image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
+  { id: 3, image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" }
 ];
 
 export default function OldVersion() {
@@ -183,7 +183,21 @@ export default function OldVersion() {
               I focus on creating seamless user experiences powered by robust and scalable architecture.
             </p>
             <div className="retroCardGrid">
-              {builderDemos.map((demo) => {
+              {builderDemos.map((demo, index) => {
+                if (index === 2) {
+                  return (
+                    <Link href="/builder" target="_blank" className="retroCard" key={demo.id} style={{ textDecoration: 'none', position: 'relative', overflow: 'hidden' }}>
+                      <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
+                      <div className="retroCardContent">
+                        <h3 className="retroCardTitle">{demo.title}</h3>
+                        <p className="retroCardDesc">{demo.desc}</p>
+                      </div>
+                      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.8) 50%, rgba(255,255,255,1))', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '2rem' }}>
+                        <span style={{ color: '#000', fontWeight: 'bold', fontSize: '1rem', padding: '8px 16px', border: '2px solid #000', backgroundColor: '#fff', boxShadow: '4px 4px 0px rgba(0,0,0,1)', textTransform: 'uppercase' }}>Learn more →</span>
+                      </div>
+                    </Link>
+                  );
+                }
                 return (
                   <a href={demo.link} target="_blank" rel="noopener noreferrer" className="retroCard" key={demo.id} style={{ textDecoration: 'none' }}>
                     <Image src={demo.image} alt={demo.title} width={600} height={400} className="retroCardImage" />
