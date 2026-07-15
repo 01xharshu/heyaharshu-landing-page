@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface VersionContextType {
   isOldVersion: boolean;
@@ -12,8 +12,30 @@ const VersionContext = createContext<VersionContextType | undefined>(undefined);
 export function VersionProvider({ children }: { children: ReactNode }) {
   const [isOldVersion, setIsOldVersion] = useState(false);
 
+  useEffect(() => {
+    // Ensure we are running on client
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("view") === "classic") {
+        setIsOldVersion(true);
+      }
+    }
+  }, []);
+
   const toggleVersion = () => {
-    setIsOldVersion((prev) => !prev);
+    setIsOldVersion((prev) => {
+      const nextState = !prev;
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        if (nextState) {
+          params.set("view", "classic");
+        } else {
+          params.set("view", "modern");
+        }
+        window.history.pushState(null, "", `?${params.toString()}`);
+      }
+      return nextState;
+    });
   };
 
   return (

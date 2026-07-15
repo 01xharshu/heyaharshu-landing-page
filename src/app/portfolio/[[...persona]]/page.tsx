@@ -8,6 +8,7 @@ import About from "@/components/About";
 import Clientele from "@/components/Clientele";
 import Work from "@/components/Work";
 import Footer from "@/components/Footer";
+import Testimonials from "@/components/Testimonials";
 
 const validPersonas = ["designer", "builder", "contentcreator"] as const;
 type Persona = (typeof validPersonas)[number];
@@ -81,6 +82,7 @@ export default function PortfolioPage({
           <main>
             <About />
             <Clientele />
+            <Testimonials />
             <Work />
           </main>
           <Footer />
