@@ -25,11 +25,11 @@ interface WorkItem {
 
 import { MotionValue } from "framer-motion";
 
-function DockItem({ mouseY, children, onClick }: { mouseY: MotionValue<number>, children: React.ReactNode, onClick: () => void }) {
+function DockItem({ mouse, children, onClick }: { mouse: MotionValue<number>, children: React.ReactNode, onClick: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const distance = useTransform(mouseY, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { y: 0, height: 0 };
-    return val - bounds.y - bounds.height / 2;
+  const distance = useTransform(mouse, (val: number) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return val - bounds.x - bounds.width / 2;
   });
 
   const widthSync = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
@@ -65,36 +65,32 @@ function DockItem({ mouseY, children, onClick }: { mouseY: MotionValue<number>, 
   );
 }
 
-function MacDock({ items, side, onUndock }: { items: WorkItem[], side: "left" | "right", onUndock: (id: string) => void }) {
-  const mouseY = useMotionValue(Infinity);
+function MacDock({ items, onUndock }: { items: WorkItem[], onUndock: (id: string) => void }) {
+  const mouseX = useMotionValue(Infinity);
 
   if (items.length === 0) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: side === "left" ? -50 : 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      onMouseMove={(e) => mouseY.set(e.clientY)}
-      onMouseLeave={() => mouseY.set(Infinity)}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      onMouseMove={(e) => mouseX.set(e.clientX)}
+      onMouseLeave={() => mouseX.set(Infinity)}
       style={{
-        position: "absolute",
-        [side]: "1rem",
-        top: "50%",
-        transform: "translateY(-50%)",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         gap: "0.5rem",
         padding: "0.5rem",
         background: "rgba(255, 255, 255, 0.05)",
         backdropFilter: "blur(20px)",
         borderRadius: "24px",
         border: "1px solid rgba(255, 255, 255, 0.1)",
-        zIndex: 100,
+        pointerEvents: "auto",
         boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
       }}
     >
       {items.map((item) => (
-        <DockItem key={item.id} mouseY={mouseY} onClick={() => onUndock(item.id)}>
+        <DockItem key={item.id} mouse={mouseX} onClick={() => onUndock(item.id)}>
           {item.id}
         </DockItem>
       ))}
@@ -106,7 +102,7 @@ export default function WorkGallery() {
   const { layoutMode, activeTool } = useWorkContext();
   const [selectedWorkId, setSelectedWorkId] = useState<string | null>(null);
   const [cardScales, setCardScales] = useState<Record<string, number>>({});
-  const [dockedCards, setDockedCards] = useState<Record<string, "left" | "right">>({});
+  const [dockedCards, setDockedCards] = useState<Record<string, boolean>>({});
   const [resetKey, setResetKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const items: WorkItem[] = workData;
@@ -180,14 +176,13 @@ export default function WorkGallery() {
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: { point: { x: number, y: number } }, id: string) => {
     if (layoutMode !== "dynamic") return;
     
-    // Check if thrown to left or right edges
-    const { x } = info.point;
+    // Check if thrown to any edge of the screen
+    const { x, y } = info.point;
     const w = window.innerWidth;
+    const h = window.innerHeight;
 
-    if (x < 100) {
-      setDockedCards(prev => ({ ...prev, [id]: "left" }));
-    } else if (x > w - 100) {
-      setDockedCards(prev => ({ ...prev, [id]: "right" }));
+    if (x < 100 || x > w - 100 || y > h - 150 || y < 100) {
+      setDockedCards(prev => ({ ...prev, [id]: true }));
     }
   };
 
@@ -204,13 +199,17 @@ export default function WorkGallery() {
   const getContainerStyle = () => {
     if (layoutMode === "compact") {
       return {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-        gap: "1.5rem",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "stretch",
+        gap: "2rem",
         width: "100%",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "0 2rem"
+        maxWidth: "100vw",
+        overflowX: "auto",
+        padding: "2rem",
+        scrollSnapType: "x mandatory",
+        WebkitOverflowScrolling: "touch",
+        scrollbarWidth: "none" // Hide scrollbar for cleaner look
       };
     } else if (layoutMode === "pinteresty") {
       return {
@@ -225,28 +224,18 @@ export default function WorkGallery() {
     } else {
       return {
         width: "100%",
-        height: "100%",
-        position: "absolute" as const,
-        top: 0,
-        left: 0,
-        overflow: "hidden" // Keep them from going fully invisible
+        minHeight: "100vh",
+        position: "relative" as const,
+        overflow: "hidden", 
+        backgroundImage: layoutMode === "dynamic" ? "radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px)" : "none",
+        backgroundSize: "30px 30px"
       };
     }
   };
-
   return (
     <>
-      <MacDock 
-        items={items.filter(item => dockedCards[item.id] === "left")} 
-        side="left" 
-        onUndock={handleUndock} 
-      />
-      <MacDock 
-        items={items.filter(item => dockedCards[item.id] === "right")} 
-        side="right" 
-        onUndock={handleUndock} 
-      />
-      <div ref={containerRef} style={getContainerStyle()}>
+      <div style={{ width: "100%", position: "relative", display: "flex", flexDirection: "column" }}>
+        <div ref={containerRef} style={getContainerStyle()}>
         <AnimatePresence mode="popLayout">
           {items.map((item, index) => {
             // If docked, don't render it in the main flow
@@ -257,7 +246,60 @@ export default function WorkGallery() {
             const initialY = Math.floor(index / 3) * 360 + 50;
             const currentScale = cardScales[item.id] || 1;
 
-            const cardContent = (
+            const hasCreatorImage = layoutMode === "compact" && !!item.testimonial?.image;
+            const cardContent = layoutMode === "compact" ? (
+              <div 
+                style={{
+                  background: "rgba(255, 255, 255, 0.03)",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+                  backdropFilter: "blur(20px) saturate(1.4)",
+                  WebkitBackdropFilter: "blur(20px) saturate(1.4)",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  width: "100%",
+                  cursor: "pointer"
+                }}
+              >
+                <div style={{ 
+                  position: "relative", 
+                  width: "100%", 
+                  paddingTop: "55%",
+                  background: hasCreatorImage ? "#fff" : "#000",
+                  overflow: "hidden",
+                  ...(hasCreatorImage ? { filter: "grayscale(100%) contrast(150%)" } : {})
+                }}>
+                  <Image 
+                    src={hasCreatorImage ? item.testimonial!.image : item.image} 
+                    alt={item.title} 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    style={{ 
+                      objectFit: hasCreatorImage ? "cover" : "contain",
+                      ...(hasCreatorImage ? { opacity: 0.8 } : {})
+                    }}
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                  {hasCreatorImage && (
+                    <div style={{
+                      position: "absolute",
+                      top: 0, left: 0, width: "100%", height: "100%",
+                      backgroundImage: "radial-gradient(circle, #fff, #000)",
+                      backgroundSize: "4px 4px",
+                      mixBlendMode: "hard-light",
+                      opacity: 0.5
+                    }} />
+                  )}
+                </div>
+                <div style={{ padding: "1.2rem 1.5rem", display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left", flex: 1, overflow: "hidden" }}>
+                  <h3 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#fff", marginBottom: "0.25rem", lineHeight: 1.2, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{item.title}</h3>
+                  <p style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.95rem", marginBottom: "0" }}>{item.channelName}</p>
+                </div>
+              </div>
+            ) : (
               <div 
                 style={{
                   background: "rgba(255, 255, 255, 0.03)",
@@ -270,7 +312,8 @@ export default function WorkGallery() {
                   display: "flex",
                   flexDirection: "column",
                   cursor: (layoutMode === "dynamic" && activeTool === "pointer") ? "grab" : (activeTool === "scale" ? "zoom-in" : "pointer"),
-                  transition: layoutMode !== "dynamic" ? "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)" : "none"
+                  transition: layoutMode !== "dynamic" ? "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)" : "none",
+                  height: "auto"
                 }}
                 onMouseEnter={(e) => {
                   if (layoutMode !== "dynamic") {
@@ -289,18 +332,24 @@ export default function WorkGallery() {
                   }
                 }}
               >
-                <div style={{ position: "relative", width: "100%", paddingTop: "60%" }}>
+                <div style={{ 
+                  position: "relative", 
+                  width: "100%", 
+                  paddingTop: "60%",
+                  background: "transparent"
+                }}>
                   <Image 
                     src={item.image} 
                     alt={item.title} 
                     fill 
+                    sizes="(max-width: 768px) 100vw, 400px"
                     style={{ objectFit: "cover" }}
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
                 </div>
-                <div style={{ padding: "1.5rem" }}>
+                <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left", flex: 1 }}>
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 600, color: "#fff", marginBottom: "0.25rem", lineHeight: 1.3 }}>{item.title}</h3>
-                  <p style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.95rem" }}>{item.channelName}</p>
+                  <p style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.95rem", marginBottom: "0" }}>{item.channelName}</p>
                 </div>
               </div>
             );
@@ -340,9 +389,12 @@ export default function WorkGallery() {
                 transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
                 style={{
                   marginBottom: layoutMode === "pinteresty" ? "1.5rem" : "0",
-                  display: layoutMode === "pinteresty" ? "inline-block" : "block",
-                  width: "100%",
-                  breakInside: "avoid"
+                  display: layoutMode === "compact" ? "flex" : (layoutMode === "pinteresty" ? "inline-block" : "block"),
+                  width: layoutMode === "compact" ? "400px" : "100%",
+                  flexShrink: layoutMode === "compact" ? 0 : 1,
+                  scrollSnapAlign: layoutMode === "compact" ? "center" : "none",
+                  breakInside: "avoid",
+                  height: layoutMode === "compact" ? "400px" : "auto"
                 }}
                 onClick={() => handleCardInteraction(item.id)}
               >
@@ -351,6 +403,43 @@ export default function WorkGallery() {
             );
           })}
         </AnimatePresence>
+        </div>
+        
+        {layoutMode === "compact" && (
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", padding: "1rem 2rem 0", maxWidth: "100vw", width: "100%" }}>
+            <button 
+              onClick={() => { if(containerRef.current) containerRef.current.scrollBy({ left: -420, behavior: 'smooth' }) }} 
+              style={{ width: "40px", height: "40px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", border: "none", cursor: "pointer", color: "white", fontSize: "1.2rem" }}
+            >
+              ‹
+            </button>
+            <button 
+              onClick={() => { if(containerRef.current) containerRef.current.scrollBy({ left: 420, behavior: 'smooth' }) }} 
+              style={{ width: "40px", height: "40px", borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", border: "none", cursor: "pointer", color: "white", fontSize: "1.2rem" }}
+            >
+              ›
+            </button>
+          </div>
+        )}
+
+        {/* Sticky Dock Container */}
+        {items.filter(item => dockedCards[item.id]).length > 0 && (
+          <div style={{
+            position: "sticky",
+            bottom: "2rem",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            pointerEvents: "none",
+            zIndex: 1000,
+            paddingBottom: "1rem" // ensures it doesn't clip directly into the footer when resting
+          }}>
+            <MacDock 
+              items={items.filter(item => dockedCards[item.id])} 
+              onUndock={handleUndock} 
+            />
+          </div>
+        )}
       </div>
 
       {typeof document !== "undefined" && createPortal(
@@ -399,12 +488,12 @@ export default function WorkGallery() {
               width: "100%",
               maxWidth: "1200px",
               margin: "0 auto",
-              padding: "2rem",
+              padding: "1rem 2rem 2rem",
               display: "flex",
               flexDirection: "column",
-              gap: "2rem"
+              gap: "1.5rem"
             }}>
-              <div style={{ position: "relative", width: "100%", height: "60vh", borderRadius: "24px", overflow: "hidden" }}>
+              <div style={{ position: "relative", width: "100%", height: "40vh", borderRadius: "24px", overflow: "hidden" }}>
                 <Image
                   src={selectedItem.image}
                   alt={selectedItem.title}
