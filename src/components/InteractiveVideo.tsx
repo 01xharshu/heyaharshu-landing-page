@@ -66,8 +66,8 @@ export default function InteractiveVideo({
         videoRef.current.pause();
         videoRef.current.currentTime = 0;
       }
-      setIsPlaying(true);
-      return;
+      const timer = setTimeout(() => setIsPlaying(true), 0);
+      return () => clearTimeout(timer);
     }
 
     if (videoRef.current) {

@@ -33,7 +33,8 @@ export default function Clientele() {
       }
       return newArray;
     };
-    setRandomClients(shuffle(clients));
+    const timer = setTimeout(() => setRandomClients(shuffle(clients)), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

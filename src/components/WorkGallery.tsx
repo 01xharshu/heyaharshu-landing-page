@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Eye, Users, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { createPortal } from "react-dom";
 import workData from "../data/work.json";
 import { useWorkContext } from "@/context/WorkContext";
+import RefButton from "./RefButton";
 
 interface WorkItem {
   id: string;
@@ -15,40 +17,149 @@ interface WorkItem {
   subscribers: string;
   image: string;
   link: string;
+  testimonial?: {
+    text: string;
+    image: string;
+  };
+}
+
+import { MotionValue } from "framer-motion";
+
+function DockItem({ mouseY, children, onClick }: { mouseY: MotionValue<number>, children: React.ReactNode, onClick: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const distance = useTransform(mouseY, (val: number) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { y: 0, height: 0 };
+    return val - bounds.y - bounds.height / 2;
+  });
+
+  const widthSync = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ width, height: width }}
+      onClick={onClick}
+      whileHover={{ scale: 1.1 }}
+      className="dock-item"
+    >
+      <div style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "rgba(255, 255, 255, 0.1)",
+        backdropFilter: "blur(12px)",
+        borderRadius: "16px",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: "1.2rem",
+        cursor: "pointer"
+      }}>
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
+function MacDock({ items, side, onUndock }: { items: WorkItem[], side: "left" | "right", onUndock: (id: string) => void }) {
+  const mouseY = useMotionValue(Infinity);
+
+  if (items.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: side === "left" ? -50 : 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      onMouseMove={(e) => mouseY.set(e.clientY)}
+      onMouseLeave={() => mouseY.set(Infinity)}
+      style={{
+        position: "absolute",
+        [side]: "1rem",
+        top: "50%",
+        transform: "translateY(-50%)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+        padding: "0.5rem",
+        background: "rgba(255, 255, 255, 0.05)",
+        backdropFilter: "blur(20px)",
+        borderRadius: "24px",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        zIndex: 100,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+      }}
+    >
+      {items.map((item) => (
+        <DockItem key={item.id} mouseY={mouseY} onClick={() => onUndock(item.id)}>
+          {item.id}
+        </DockItem>
+      ))}
+    </motion.div>
+  );
 }
 
 export default function WorkGallery() {
   const { layoutMode, activeTool } = useWorkContext();
   const [selectedWorkId, setSelectedWorkId] = useState<string | null>(null);
   const [cardScales, setCardScales] = useState<Record<string, number>>({});
+  const [dockedCards, setDockedCards] = useState<Record<string, "left" | "right">>({});
+  const [resetKey, setResetKey] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const items: WorkItem[] = workData;
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const workParam = params.get("work");
-      if (workParam) {
-        setSelectedWorkId(workParam);
-      }
+    const workParam = searchParams.get("work");
+    if (workParam) {
+      const timer = setTimeout(() => setSelectedWorkId(workParam), 0);
+      return () => clearTimeout(timer);
+    } else {
+      setSelectedWorkId(null);
     }
-  }, []);
+  }, [searchParams]);
+
+  // Reset positions and states when entering dynamic mode
+  useEffect(() => {
+    if (layoutMode === "dynamic") {
+      const timer = setTimeout(() => {
+        setResetKey(Date.now());
+        setCardScales({});
+        setDockedCards({});
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [layoutMode]);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedWorkId) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedWorkId]);
 
   const openModal = (id: string) => {
     setSelectedWorkId(id);
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      params.set("work", id);
-      window.history.pushState(null, "", `?${params.toString()}`);
-    }
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("work", id);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const closeModal = () => {
     setSelectedWorkId(null);
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      params.delete("work");
-      window.history.pushState(null, "", `?${params.toString()}`);
-    }
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("work");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const handleCardInteraction = (id: string) => {
@@ -64,6 +175,28 @@ export default function WorkGallery() {
     } else if (activeTool === "pointer") {
       openModal(id);
     }
+  };
+
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: { point: { x: number, y: number } }, id: string) => {
+    if (layoutMode !== "dynamic") return;
+    
+    // Check if thrown to left or right edges
+    const { x } = info.point;
+    const w = window.innerWidth;
+
+    if (x < 100) {
+      setDockedCards(prev => ({ ...prev, [id]: "left" }));
+    } else if (x > w - 100) {
+      setDockedCards(prev => ({ ...prev, [id]: "right" }));
+    }
+  };
+
+  const handleUndock = (id: string) => {
+    setDockedCards(prev => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
   };
 
   const selectedItem = items.find((item) => item.id === selectedWorkId);
@@ -93,19 +226,32 @@ export default function WorkGallery() {
       return {
         width: "100%",
         height: "100%",
-        position: "absolute" as any,
+        position: "absolute" as const,
         top: 0,
         left: 0,
-        overflow: "visible"
+        overflow: "hidden" // Keep them from going fully invisible
       };
     }
   };
 
   return (
     <>
-      <div style={getContainerStyle()}>
+      <MacDock 
+        items={items.filter(item => dockedCards[item.id] === "left")} 
+        side="left" 
+        onUndock={handleUndock} 
+      />
+      <MacDock 
+        items={items.filter(item => dockedCards[item.id] === "right")} 
+        side="right" 
+        onUndock={handleUndock} 
+      />
+      <div ref={containerRef} style={getContainerStyle()}>
         <AnimatePresence mode="popLayout">
           {items.map((item, index) => {
+            // If docked, don't render it in the main flow
+            if (dockedCards[item.id]) return null;
+
             // Dynamic mode ordered initial positions
             const initialX = (index % 3) * 340 + 250;
             const initialY = Math.floor(index / 3) * 360 + 50;
@@ -118,12 +264,29 @@ export default function WorkGallery() {
                   borderRadius: "20px",
                   overflow: "hidden",
                   border: "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+                  backdropFilter: "blur(20px) saturate(1.4)",
+                  WebkitBackdropFilter: "blur(20px) saturate(1.4)",
                   display: "flex",
                   flexDirection: "column",
-                  cursor: (layoutMode === "dynamic" && activeTool === "pointer") ? "grab" : (activeTool === "scale" ? "zoom-in" : "pointer")
+                  cursor: (layoutMode === "dynamic" && activeTool === "pointer") ? "grab" : (activeTool === "scale" ? "zoom-in" : "pointer"),
+                  transition: layoutMode !== "dynamic" ? "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)" : "none"
+                }}
+                onMouseEnter={(e) => {
+                  if (layoutMode !== "dynamic") {
+                    e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                    e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.14)";
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (layoutMode !== "dynamic") {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)";
+                    e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.08)";
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
+                  }
                 }}
               >
                 <div style={{ position: "relative", width: "100%", paddingTop: "60%" }}>
@@ -138,11 +301,6 @@ export default function WorkGallery() {
                 <div style={{ padding: "1.5rem" }}>
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 600, color: "#fff", marginBottom: "0.25rem", lineHeight: 1.3 }}>{item.title}</h3>
                   <p style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.95rem" }}>{item.channelName}</p>
-                  
-                  <div style={{ display: "flex", gap: "1rem", marginTop: "1rem", fontSize: "0.85rem", color: "rgba(255, 255, 255, 0.5)" }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><Eye size={14} /> {item.views}</span>
-                    <span style={{ display: "flex", alignItems: "center", gap: "6px" }}><Users size={14} /> {item.subscribers}</span>
-                  </div>
                 </div>
               </div>
             );
@@ -150,8 +308,9 @@ export default function WorkGallery() {
             if (layoutMode === "dynamic") {
               return (
                 <motion.div
-                  key={`dynamic-${item.id}`}
+                  key={`dynamic-${resetKey}-${item.id}`}
                   drag={activeTool === "pointer"}
+                  dragConstraints={containerRef}
                   dragMomentum={true}
                   whileDrag={{ scale: currentScale * 1.05, cursor: "grabbing" }}
                   initial={{ x: initialX, y: initialY, scale: currentScale, opacity: 0 }}
@@ -163,7 +322,8 @@ export default function WorkGallery() {
                     width: "300px",
                     zIndex: 10
                   }}
-                  onPointerDown={() => handleCardInteraction(item.id)}
+                  onClick={() => handleCardInteraction(item.id)}
+                  onDragEnd={(e, info) => handleDragEnd(e, info, item.id)}
                 >
                   {cardContent}
                 </motion.div>
@@ -193,71 +353,58 @@ export default function WorkGallery() {
         </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {selectedItem && (
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedItem && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            key="work-modal"
+            initial={{ opacity: 0, filter: "blur(20px)", scale: 0.9 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+            exit={{ opacity: 0, filter: "blur(20px)", scale: 1.1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             style={{
               position: "fixed",
               top: 0,
               left: 0,
               width: "100vw",
               height: "100vh",
-              background: "rgba(0, 0, 0, 0.6)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              zIndex: 9999,
+              background: "#050505", // Fully opaque dark background like a new page
+              zIndex: 999999,
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "2rem"
+              flexDirection: "column",
+              overflowY: "auto",
+              padding: "0"
             }}
-            onClick={closeModal}
           >
-            <motion.div
-              initial={{ scale: 0.9, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              style={{
-                width: "100%",
-                maxWidth: "800px",
-                background: "rgba(25, 25, 30, 0.7)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                borderRadius: "24px",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-                position: "relative"
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={closeModal}
-                style={{
-                  position: "absolute",
-                  top: "1.5rem",
-                  right: "1.5rem",
-                  background: "rgba(255, 255, 255, 0.1)",
-                  border: "none",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  color: "#fff",
-                  zIndex: 10
-                }}
-              >
-                <X size={20} />
-              </button>
+            {/* Navigation Bar for "New Page" */}
+            <div style={{
+              position: "sticky",
+              top: 0,
+              left: 0,
+              width: "100%",
+              padding: "1.5rem 2rem",
+              background: "rgba(5, 5, 5, 0.8)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              zIndex: 100,
+              display: "flex",
+              alignItems: "center",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.05)"
+            }}>
+              <RefButton onClick={closeModal} text="Bring me back" variant="dark" />
+            </div>
 
-              <div style={{ position: "relative", width: "100%", height: "400px" }}>
+            {/* Content Area */}
+            <div style={{
+              width: "100%",
+              maxWidth: "1200px",
+              margin: "0 auto",
+              padding: "2rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "2rem"
+            }}>
+              <div style={{ position: "relative", width: "100%", height: "60vh", borderRadius: "24px", overflow: "hidden" }}>
                 <Image
                   src={selectedItem.image}
                   alt={selectedItem.title}
@@ -265,37 +412,56 @@ export default function WorkGallery() {
                   style={{ objectFit: "cover" }}
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "50%", background: "linear-gradient(to top, rgba(25, 25, 30, 1), transparent)" }} />
               </div>
 
-              <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", marginTop: "-3rem", zIndex: 5 }}>
-                <h2 style={{ fontSize: "2.5rem", fontWeight: 700, color: "#fff", margin: 0, letterSpacing: "-0.02em" }}>{selectedItem.title}</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <h2 style={{ fontSize: "3.5rem", fontWeight: 700, color: "#fff", margin: 0, letterSpacing: "-0.02em" }}>{selectedItem.title}</h2>
                 
-                <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
-                  <span style={{ fontSize: "1.2rem", color: "rgba(255, 255, 255, 0.7)", fontWeight: 500 }}>{selectedItem.channelName}</span>
-                  <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255, 255, 255, 0.3)" }} />
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "rgba(255, 255, 255, 0.7)" }}>
-                    <Eye size={16} /> {selectedItem.views}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "rgba(255, 255, 255, 0.7)" }}>
-                    <Users size={16} /> {selectedItem.subscribers}
-                  </div>
+                <div style={{ display: "flex", gap: "1.5rem", alignItems: "center", marginTop: "1rem" }}>
+                  <span style={{ fontSize: "1.4rem", color: "rgba(255, 255, 255, 0.7)", fontWeight: 500 }}>{selectedItem.channelName}</span>
                 </div>
+
+                {selectedItem.testimonial && (
+                  <div style={{
+                    marginTop: "2rem",
+                    padding: "2rem",
+                    background: "rgba(255, 255, 255, 0.05)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    borderRadius: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                  }}>
+                    <p style={{ color: "rgba(255, 255, 255, 0.9)", fontSize: "1.2rem", fontStyle: "italic", lineHeight: 1.6 }}>
+                      &quot;{selectedItem.testimonial.text}&quot;
+                    </p>
+                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                      <img 
+                        src={selectedItem.testimonial.image} 
+                        alt={selectedItem.channelName}
+                        style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
+                      />
+                      <span style={{ color: "#fff", fontWeight: 600, fontSize: "1.1rem" }}>{selectedItem.channelName}</span>
+                    </div>
+                  </div>
+                )}
 
                 <a
                   href={selectedItem.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    marginTop: "1.5rem",
+                    marginTop: "2rem",
                     alignSelf: "flex-start",
                     background: "#fff",
                     color: "#000",
-                    padding: "0.75rem 2rem",
+                    padding: "1rem 2.5rem",
                     borderRadius: "99px",
                     fontWeight: 600,
+                    fontSize: "1.1rem",
                     textDecoration: "none",
-                    transition: "transform 0.2s ease"
+                    transition: "transform 0.2s ease",
+                    boxShadow: "0 8px 32px rgba(255, 255, 255, 0.2)"
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
                   onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
@@ -303,10 +469,12 @@ export default function WorkGallery() {
                   Watch Video
                 </a>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

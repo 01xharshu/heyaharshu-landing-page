@@ -26,11 +26,15 @@ export function WorkProvider({ children }: { children: ReactNode }) {
 
   // Clear canvas whenever layout changes
   React.useEffect(() => {
-    setClearCanvas(true);
-    // Switch to pointer mode by default when leaving dynamic
-    if (layoutMode !== "dynamic") {
-      setActiveTool("pointer");
-    }
+    // Avoid synchronous setState in effect
+    const timer = setTimeout(() => {
+      setClearCanvas(true);
+      // Switch to pointer mode by default when leaving dynamic
+      if (layoutMode !== "dynamic") {
+        setActiveTool("pointer");
+      }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [layoutMode]);
 
   return (

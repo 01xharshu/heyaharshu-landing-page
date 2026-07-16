@@ -39,7 +39,7 @@ export default function Testimonials() {
             WebkitBackdropFilter: "blur(20px)",
           }}>
             <p style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "1.1rem", lineHeight: 1.6, fontStyle: "italic", flexGrow: 1 }}>
-              "{testimonial.text}"
+              &quot;{testimonial.text}&quot;
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "auto" }}>
               <img 

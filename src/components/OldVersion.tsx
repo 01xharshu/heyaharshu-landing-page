@@ -6,8 +6,8 @@ import RefButton from "./RefButton";
 import Image from "next/image";
 import Link from "next/link";
 
-const designerDemos: any[] = [];
-const creatorDemos: any[] = [];
+const designerDemos: { id: number; image: string; title: string; desc: string; link?: string }[] = [];
+const creatorDemos: { id: number; image: string; title: string; desc: string; link?: string }[] = [];
 
 const builderDemos = [
   { id: 1, image: "/thumb2.jpg", title: "Video Transcribe", desc: "Transcribe videos directly on your Mac. A simple and efficient tool for video creators.", link: "https://video-transcribe-mac.vercel.app/" },
@@ -94,7 +94,7 @@ export default function OldVersion() {
           </h1>
 
           <p className="retroParagraph">
-            I'm Harsh Mishra and welcome to my little corner on the Internet. 
+            I&apos;m Harsh Mishra and welcome to my little corner on the Internet. 
             My journey into the world of tech started with a curiosity for how things work under the hood,
             driven by a relentless passion for building tools that solve real problems.
           </p>

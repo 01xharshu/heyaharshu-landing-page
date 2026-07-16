@@ -2,6 +2,7 @@
 
 import RetroSubpageLayout from "@/components/RetroSubpageLayout";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LetterPage() {
   return (
@@ -14,15 +15,15 @@ export default function LetterPage() {
 
       <section className="retroSection" style={{ marginTop: '48px' }}>
         <p className="retroParagraph" style={{ maxWidth: '800px', marginBottom: '24px' }}>
-          &quot;Give me a lever long enough, and a place to stand. I&apos;ll show you how to move the earth around.&quot; This quote hit me hard the day I read it in the Almanack of Naval Ravikant. I love to build <a href="/#as-builder" style={{ textDecoration: 'underline', color: 'inherit' }}>solutions</a>, because I&apos;ve gone from admiring these kinds of websites and UIs to making my own. From using Figma for the very first time in 2022 and wondering how folks create plugins and publish them in the Figma community, to publishing my own plugins.
+          &quot;Give me a lever long enough, and a place to stand. I&apos;ll show you how to move the earth around.&quot; This quote hit me hard the day I read it in the Almanack of Naval Ravikant. I love to build <Link href="/#as-builder" style={{ textDecoration: 'underline', color: 'inherit' }}>solutions</Link>, because I&apos;ve gone from admiring these kinds of websites and UIs to making my own. From using Figma for the very first time in 2022 and wondering how folks create plugins and publish them in the Figma community, to publishing my own plugins.
         </p>
 
         <p className="retroParagraph" style={{ maxWidth: '800px', marginBottom: '24px' }}>
-          I used to be a very underconfident boy when I was in the 6th and 7th standard, but once I started making content, it somehow made me confident. I think from that stage I learned the concept of giving your brain <a href="#evidence" style={{ textDecoration: 'underline', color: 'inherit' }}>evidence</a>.
+          I used to be a very underconfident boy when I was in the 6th and 7th standard, but once I started making content, it somehow made me confident. I think from that stage I learned the concept of giving your brain <Link href="#evidence" style={{ textDecoration: 'underline', color: 'inherit' }}>evidence</Link>.
         </p>
 
         <p className="retroParagraph" style={{ maxWidth: '800px', marginBottom: '48px' }}>
-          I remember I was in the 8th standard when I started making content. I never knew if we really needed a mic, if there was any need to have a setup, neither did I know if there was any better use for a camera. It was just me placing my phone (I had a Samsung Galaxy J1 Ace; my family gifted me this phone and it was my very first <a href="#assets" style={{ textDecoration: 'underline', color: 'inherit' }}>asset</a>).
+          I remember I was in the 8th standard when I started making content. I never knew if we really needed a mic, if there was any need to have a setup, neither did I know if there was any better use for a camera. It was just me placing my phone (I had a Samsung Galaxy J1 Ace; my family gifted me this phone and it was my very first <Link href="#assets" style={{ textDecoration: 'underline', color: 'inherit' }}>asset</Link>).
         </p>
 
         <div id="assets" style={{ paddingTop: '48px' }}>

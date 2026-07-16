@@ -1,12 +1,16 @@
 [
   {
     "id": "1",
-    "title": "React Performance Optimization",
-    "channelName": "Frontend Masters",
+    "title": "How I help this CFA reach 100K from 9K Subscribers",
+    "channelName": "Aaditya Iyengar",
     "views": "1.2M",
     "subscribers": "850K",
     "image": "/thumb1.jpg",
-    "link": "https://youtube.com/"
+    "link": "https://youtube.com/",
+    "testimonial": {
+      "text": "Working with Harsh has been a game-changer for my channel. His designs are not just aesthetically pleasing but also highly converting.",
+      "image": "https://yt3.googleusercontent.com/VjEDkL6UnO0qtUgBJ7gq5HKT5opMqryDuKAfmVH-oSh8NNM53_0qmh7bS06j4rFHDYkvO-Flhw=s160-c-k-c0x00ffffff-no-rj"
+    }
   },
   {
     "id": "2",

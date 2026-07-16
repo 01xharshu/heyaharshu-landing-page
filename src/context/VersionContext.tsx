@@ -17,7 +17,8 @@ export function VersionProvider({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("view") === "classic") {
-        setIsOldVersion(true);
+        const timer = setTimeout(() => setIsOldVersion(true), 0);
+        return () => clearTimeout(timer);
       }
     }
   }, []);

@@ -26,7 +26,8 @@ export default function Carousel() {
       const params = new URLSearchParams(window.location.search);
       const workParam = params.get("work");
       if (workParam) {
-        setSelectedWorkId(workParam);
+        const timer = setTimeout(() => setSelectedWorkId(workParam), 0);
+        return () => clearTimeout(timer);
       }
     }
   }, []);
