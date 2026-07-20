@@ -196,7 +196,7 @@ export default function WorkGallery() {
 
   const selectedItem = items.find((item) => item.id === selectedWorkId);
 
-  const getContainerStyle = () => {
+  const getContainerStyle = (): React.CSSProperties => {
     if (layoutMode === "compact") {
       return {
         display: "flex",
