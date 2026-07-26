@@ -9,6 +9,9 @@ import Clientele from "@/components/Clientele";
 import Work from "@/components/Work";
 import Footer from "@/components/Footer";
 import Testimonials from "@/components/Testimonials";
+import DesignerWorkInProgress from "@/components/DesignerWorkInProgress";
+import BuilderPortfolio from "@/components/BuilderPortfolio";
+import CreatorPortfolio from "@/components/CreatorPortfolio";
 
 const validPersonas = ["designer", "builder", "contentcreator"] as const;
 type Persona = (typeof validPersonas)[number];
@@ -53,6 +56,8 @@ export default function PortfolioPage({
   }
 
   const meta = personaMeta[personaSlug];
+  const builderAppSlug =
+    personaSlug === "builder" && persona[1] === "apps" ? persona[2] : undefined;
 
   return (
     <motion.div
@@ -66,11 +71,17 @@ export default function PortfolioPage({
         <div className="personaHeaderGlow" style={{ background: `radial-gradient(ellipse at 50% 0%, ${meta.accent}, transparent 70%)` }} />
         
         <div style={{ position: "absolute", top: "2rem", left: "2rem", zIndex: 10 }}>
-          <RefButton onClick={() => router.push("/")} text="Bring me Back" variant="dark" />
+          <RefButton
+            onClick={() =>
+              router.push(builderAppSlug ? "/portfolio/builder" : "/")
+            }
+            text="Bring me Back"
+            variant="dark"
+          />
         </div>
 
         <div className="personaHeaderContent">
-          {personaSlug !== "designer" && (
+          {personaSlug === "contentcreator" && (
             <h1 className="personaHeaderTitle">{meta.title}</h1>
           )}
         </div>
@@ -83,19 +94,20 @@ export default function PortfolioPage({
             <About />
             <Clientele />
             <Testimonials />
-            <Work />
+            <div className="designerWorkCurtain">
+              <div className="designerHiddenProjects" aria-hidden="true">
+                <Work />
+              </div>
+              <DesignerWorkInProgress />
+            </div>
           </main>
           <Footer />
         </>
+      ) : personaSlug === "builder" ? (
+        <BuilderPortfolio appSlug={builderAppSlug} />
       ) : (
-        <main style={{ padding: "4rem 2rem", textAlign: "center", color: "#fff" }}>
-          <h2>Generic {meta.title} Content</h2>
-          <p style={{ marginTop: "1rem", color: "rgba(255,255,255,0.7)" }}>
-            More information about the {meta.title} personality will be added here soon.
-          </p>
-        </main>
+        <CreatorPortfolio />
       )}
     </motion.div>
   );
 }
-
