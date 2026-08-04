@@ -4,18 +4,24 @@ import React from "react";
 import { useVersion } from "@/context/VersionContext";
 
 export default function ThemeToggle({ theme = "dark" }: { theme?: "light" | "dark" }) {
-  const { isOldVersion, toggleVersion } = useVersion();
+  const { mode, setMode } = useVersion();
 
   return (
-    <div 
-      className="segmentedControl" 
+    <div
+      className="viewModeControl"
       data-theme={theme}
-      data-active={isOldVersion ? "right" : "left"}
-      onClick={toggleVersion}
+      aria-label="Choose website view"
     >
-      <div className="segmentSlider"></div>
-      <div className="segmentOption" style={{ color: !isOldVersion && theme === 'light' ? '#000' : 'inherit' }}>Modern</div>
-      <div className="segmentOption" style={{ color: isOldVersion && theme === 'light' ? '#000' : 'inherit' }}>Classic</div>
+      {(["modern", "classic", "init"] as const).map((option) => (
+        <button
+          type="button"
+          key={option}
+          className={mode === option ? "active" : ""}
+          onClick={() => setMode(option)}
+        >
+          {option[0].toUpperCase() + option.slice(1)}
+        </button>
+      ))}
     </div>
   );
 }

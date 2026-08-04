@@ -2,45 +2,54 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
+export type ViewMode = "modern" | "classic" | "init";
+
 interface VersionContextType {
+  mode: ViewMode;
   isOldVersion: boolean;
+  isInitVersion: boolean;
+  setMode: (mode: ViewMode) => void;
   toggleVersion: () => void;
 }
 
 const VersionContext = createContext<VersionContextType | undefined>(undefined);
 
 export function VersionProvider({ children }: { children: ReactNode }) {
-  const [isOldVersion, setIsOldVersion] = useState(false);
+  const [mode, setModeState] = useState<ViewMode>("modern");
 
   useEffect(() => {
     // Ensure we are running on client
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
-      if (params.get("view") === "classic") {
-        const timer = setTimeout(() => setIsOldVersion(true), 0);
+      const requestedMode = params.get("view");
+      if (requestedMode === "classic" || requestedMode === "init" || requestedMode === "modern") {
+        const timer = setTimeout(() => setModeState(requestedMode), 0);
         return () => clearTimeout(timer);
       }
     }
   }, []);
 
-  const toggleVersion = () => {
-    setIsOldVersion((prev) => {
-      const nextState = !prev;
-      if (typeof window !== "undefined") {
-        const params = new URLSearchParams(window.location.search);
-        if (nextState) {
-          params.set("view", "classic");
-        } else {
-          params.set("view", "modern");
-        }
-        window.history.pushState(null, "", `?${params.toString()}`);
-      }
-      return nextState;
-    });
+  const setMode = (nextMode: ViewMode) => {
+    setModeState(nextMode);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      params.set("view", nextMode);
+      window.history.pushState(null, "", `?${params.toString()}`);
+    }
   };
 
+  const toggleVersion = () => setMode(mode === "classic" ? "modern" : "classic");
+
   return (
-    <VersionContext.Provider value={{ isOldVersion, toggleVersion }}>
+    <VersionContext.Provider
+      value={{
+        mode,
+        isOldVersion: mode === "classic",
+        isInitVersion: mode === "init",
+        setMode,
+        toggleVersion,
+      }}
+    >
       {children}
     </VersionContext.Provider>
   );

@@ -5,15 +5,16 @@ import Navbar from "@/components/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import Hero from "@/components/Hero";
 import OldVersion from "@/components/OldVersion";
+import InitVersion from "@/components/InitVersion";
 import { useVersion } from "@/context/VersionContext";
 
 export default function Home() {
-  const { isOldVersion } = useVersion();
+  const { mode } = useVersion();
   const [cardsVisible, setCardsVisible] = useState(false);
 
   return (
     <AnimatePresence mode="wait">
-      {isOldVersion ? (
+      {mode === "classic" ? (
         <motion.div
           key="old"
           initial={{ opacity: 0, filter: "blur(20px)", scale: 0.9 }}
@@ -22,6 +23,16 @@ export default function Home() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <OldVersion />
+        </motion.div>
+      ) : mode === "init" ? (
+        <motion.div
+          key="init"
+          initial={{ opacity: 0, filter: "blur(12px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          exit={{ opacity: 0, filter: "blur(12px)" }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <InitVersion />
         </motion.div>
       ) : (
         <motion.div

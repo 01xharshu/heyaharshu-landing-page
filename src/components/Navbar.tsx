@@ -5,10 +5,10 @@ import { useVersion } from "@/context/VersionContext";
 import RefButton from "./RefButton";
 
 export default function Navbar() {
-  const { isOldVersion, toggleVersion } = useVersion();
+  const { mode, setMode } = useVersion();
 
   // If we are in the Old Version context, don't render the modern Navbar at all.
-  if (isOldVersion) return null;
+  if (mode !== "modern") return null;
 
   return (
     <>
@@ -30,7 +30,8 @@ export default function Navbar() {
           
           {/* Right: Action Buttons */}
           <div className="navActions">
-            <RefButton onClick={toggleVersion} text="Classic" variant="dark" />
+            <RefButton onClick={() => setMode("classic")} text="Classic" variant="dark" />
+            <RefButton onClick={() => setMode("init")} text="Init" variant="dark" />
             <div onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               <RefButton onClick={() => {}} text="Hire Me" variant="light" />
             </div>

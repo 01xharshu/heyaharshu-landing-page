@@ -274,15 +274,21 @@ function DockApp({
   const scaleTarget = useTransform(
     distance,
     [-150, 0, 150],
-    [1, reduceMotion ? 1 : 1.62, 1],
+    [1, reduceMotion ? 1 : 1.54, 1],
   );
   const liftTarget = useTransform(
     distance,
     [-150, 0, 150],
     [0, reduceMotion ? 0 : -18, 0],
   );
+  const pushTarget = useTransform(
+    distance,
+    [-220, -100, 0, 100, 220],
+    [0, reduceMotion ? 0 : -14, 0, reduceMotion ? 0 : 14, 0],
+  );
   const scale = useSpring(scaleTarget, { mass: 0.12, stiffness: 260, damping: 18 });
   const y = useSpring(liftTarget, { mass: 0.12, stiffness: 260, damping: 18 });
+  const x = useSpring(pushTarget, { mass: 0.12, stiffness: 250, damping: 19 });
 
   const focusIcon = () => {
     const bounds = itemRef.current?.getBoundingClientRect();
@@ -301,7 +307,7 @@ function DockApp({
       <span className="builder2DockTooltip" role="tooltip">
         {app.name}
       </span>
-      <motion.span className="builder2DockIcon" style={{ scale, y }}>
+      <motion.span className="builder2DockIcon" style={{ scale, x, y }}>
         <AppMark app={app} />
       </motion.span>
     </Link>

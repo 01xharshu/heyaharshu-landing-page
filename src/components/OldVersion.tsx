@@ -17,7 +17,7 @@ const builderDemos = [
 ];
 
 export default function OldVersion() {
-  const { toggleVersion } = useVersion();
+  const { setMode } = useVersion();
 
   return (
     <div className="retroWrapper">
@@ -47,8 +47,8 @@ export default function OldVersion() {
         </nav>
 
         <div className="retroHeaderActions">
-
-          <RefButton onClick={toggleVersion} text="Modern" variant="light" />
+          <RefButton onClick={() => setMode("modern")} text="Modern" variant="light" />
+          <RefButton onClick={() => setMode("init")} text="Init" variant="light" />
         </div>
       </header>
 
