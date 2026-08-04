@@ -3421,6 +3421,18 @@ a {
   height: 104px;
 }
 
+.builder2AppMarkImage {
+  overflow: hidden;
+  border: 0;
+}
+
+.builder2AppMarkImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .builder2AppPage {
   padding-top: 4rem;
 }
@@ -3450,6 +3462,24 @@ a {
   color: rgba(255,255,255,.5);
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   line-height: 1.65;
+}
+
+.builder2DownloadButton {
+  margin-top: 2.25rem;
+  padding: .9rem 1.25rem;
+  border: 1px solid rgba(255,255,255,.26);
+  color: #0a0a0a;
+  background: #fff;
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+
+.builder2DownloadButton:hover {
+  color: #fff;
+  background: transparent;
 }
 
 .builder2AppFacts {
@@ -3603,6 +3633,157 @@ a {
 
   .builder2AppFacts > div:last-child {
     border-bottom: 0;
+  }
+}
+
+/* ─── Opener / Classic ─── */
+.retroOpenerPage {
+  padding-bottom: 64px;
+}
+
+.retroOpenerHero {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: center;
+  gap: 40px;
+  padding: 40px 0;
+  border-top: 1px solid rgba(0,0,0,.2);
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.retroOpenerIcon {
+  display: block;
+  width: 220px;
+  height: 220px;
+  filter: grayscale(100%);
+}
+
+.retroOpenerHero h1 {
+  margin: 0 0 16px;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 550;
+  line-height: .9;
+  letter-spacing: -.06em;
+}
+
+.retroOpenerHero p {
+  max-width: 420px;
+  margin: 0;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.retroOpenerActions {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0 64px;
+}
+
+.retroOpenerActions .retroButtonSecondary {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.retroOpenerFeatures {
+  border-top: 1px solid rgba(0,0,0,.2);
+}
+
+.retroOpenerFeature {
+  display: grid;
+  grid-template-columns: 48px 190px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.retroOpenerFeature span {
+  color: rgba(0,0,0,.4);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .75rem;
+}
+
+.retroOpenerFeature h2,
+.retroOpenerFeature p {
+  margin: 0;
+}
+
+.retroOpenerFeature h2 {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.retroOpenerFeature p {
+  color: rgba(0,0,0,.62);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.retroOpenerFootnote {
+  display: grid;
+  grid-template-columns: 100px 1fr 100px 1fr;
+  margin-top: 64px;
+  border: 1px solid rgba(0,0,0,.2);
+}
+
+.retroOpenerFootnote span,
+.retroOpenerFootnote strong {
+  padding: 12px;
+  border-right: 1px solid rgba(0,0,0,.2);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .72rem;
+}
+
+.retroOpenerFootnote span {
+  color: rgba(0,0,0,.48);
+  text-transform: uppercase;
+}
+
+.retroOpenerFootnote > :last-child {
+  border-right: 0;
+}
+
+@media (max-width: 680px) {
+  .retroOpenerHero {
+    grid-template-columns: 1fr;
+  }
+
+  .retroOpenerIcon {
+    width: 150px;
+    height: 150px;
+  }
+
+  .retroOpenerActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .retroOpenerActions .retroButtonSecondary {
+    justify-content: center;
+  }
+
+  .retroOpenerFeature {
+    grid-template-columns: 32px 1fr;
+  }
+
+  .retroOpenerFeature p {
+    grid-column: 2;
+  }
+
+  .retroOpenerFootnote {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .retroOpenerFootnote > :nth-child(2) {
+    border-right: 0;
+  }
+
+  .retroOpenerFootnote > :nth-child(-n+2) {
+    border-bottom: 1px solid rgba(0,0,0,.2);
   }
 }
 

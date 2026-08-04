@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, FileText, Video } from "lucide-react";
+import { ArrowUpRight, FileText, Video, type LucideIcon } from "lucide-react";
 
 const figmaPlugins = [
   {
@@ -22,7 +22,18 @@ const figmaPlugins = [
   },
 ];
 
-const macApps = [
+interface MacApp {
+  slug: string;
+  name: string;
+  description: string;
+  detail: string;
+  icon?: LucideIcon;
+  image?: string;
+  features: readonly string[];
+  hasDownload?: boolean;
+}
+
+const macApps: MacApp[] = [
   {
     slug: "video-transcribe",
     name: "Video Transcribe",
@@ -41,9 +52,21 @@ const macApps = [
     icon: FileText,
     features: ["Multiple video inputs", "One document output", "Built in Swift"],
   },
-] as const;
-
-type MacApp = (typeof macApps)[number];
+  {
+    slug: "opener",
+    name: "Opener",
+    description: "Choose which browser opens a link on your Mac.",
+    detail:
+      "Opener sits between a link and the web, letting you choose the browser you want before the page opens.",
+    image: "/Opener.png",
+    features: [
+      "Pick a browser for each link",
+      "Made for macOS",
+      "A lighter default-browser workflow",
+    ],
+    hasDownload: true,
+  },
+];
 
 interface GithubEvent {
   id: string;
@@ -205,7 +228,20 @@ function GitHubActivity() {
 }
 
 function AppMark({ app, large = false }: { app: MacApp; large?: boolean }) {
+  if (app.image) {
+    return (
+      <span
+        className={`builder2AppMark builder2AppMarkImage ${large ? "builder2AppMarkLarge" : ""}`}
+      >
+        <Image src={app.image} alt="" width={104} height={104} />
+      </span>
+    );
+  }
+
   const Icon = app.icon;
+
+  if (!Icon) return null;
+
   return (
     <span className={`builder2AppMark ${large ? "builder2AppMarkLarge" : ""}`}>
       <Icon size={large ? 48 : 31} strokeWidth={1.35} aria-hidden="true" />
@@ -220,6 +256,15 @@ function BuilderAppDetail({ app }: { app: MacApp }) {
         <AppMark app={app} large />
         <h1>{app.name}</h1>
         <p>{app.detail}</p>
+        {app.hasDownload && (
+          <button
+            type="button"
+            className="builder2DownloadButton"
+            aria-label="Download Opener for Mac (download coming soon)"
+          >
+            Download for Mac
+          </button>
+        )}
       </section>
 
       <section className="builder2AppFacts" aria-label={`${app.name} details`}>
