@@ -3229,14 +3229,15 @@ a {
 }
 
 .initIndex {
-  position: sticky;
+  position: fixed;
   z-index: 20;
-  top: 32px;
-  align-self: start;
+  top: 50%;
+  left: 28px;
   width: 220px;
   overflow: visible;
-  margin-top: clamp(72px, 12vh, 130px);
+  margin: 0;
   padding: 6px 16px 6px 0;
+  transform: translateY(-50%);
 }
 
 .initIndexLabel {
@@ -3350,6 +3351,7 @@ a {
 }
 
 .initMain {
+  grid-column: 2;
   width: min(1050px, 100%);
   margin: 0 auto;
   padding: 100px 0 120px;
@@ -3402,6 +3404,8 @@ a {
   vertical-align: -.12em;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,.16);
+  font: inherit;
+  line-height: 1;
   cursor: zoom-in;
   transition: transform .18s ease, box-shadow .18s ease;
 }
@@ -3853,6 +3857,7 @@ a {
     overflow: visible;
     margin: 0;
     padding: 0;
+    transform: none;
   }
 
   .initIndexLabel,
@@ -3880,6 +3885,7 @@ a {
   }
 
   .initMain {
+    grid-column: auto;
     width: min(900px, calc(100% - 64px));
     margin: 0 auto;
   }
