@@ -1,10 +1,10 @@
 "use client";
 
-import RetroSubpageLayout from "@/components/RetroSubpageLayout";
+import ModeSubpageLayout from "@/components/ModeSubpageLayout";
 
 export default function KamaiPage() {
   return (
-    <RetroSubpageLayout>
+    <ModeSubpageLayout pageName="Kamai">
       <div className="retroLabel">ABOUT / KAMAI / 2026</div>
       <h1 className="retroSectionTitle">Kamai.</h1>
       <p className="retroParagraph" style={{ maxWidth: '800px' }}>
@@ -17,6 +17,6 @@ export default function KamaiPage() {
           Coming soon — content to be added.
         </p>
       </section>
-    </RetroSubpageLayout>
+    </ModeSubpageLayout>
   );
 }

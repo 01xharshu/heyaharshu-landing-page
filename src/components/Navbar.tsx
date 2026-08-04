@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useVersion } from "@/context/VersionContext";
 import RefButton from "./RefButton";
+import AnimatedName from "./AnimatedName";
 
 export default function Navbar() {
   const { mode, setMode } = useVersion();
@@ -25,7 +26,7 @@ export default function Navbar() {
 
           {/* Center: Logo */}
           <div className="logoContainer" style={{ justifySelf: 'center' }}>
-            <span className="logoText">Harsh Mishra</span>
+            <AnimatedName className="logoText" />
           </div>
           
           {/* Right: Action Buttons */}

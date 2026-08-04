@@ -1,6 +1,6 @@
 "use client";
 
-import RetroSubpageLayout from "@/components/RetroSubpageLayout";
+import ModeSubpageLayout from "@/components/ModeSubpageLayout";
 
 const places = [
   { name: "Jogbani", visited: true },
@@ -24,7 +24,7 @@ const places = [
 
 export default function PlacesPage() {
   return (
-    <RetroSubpageLayout>
+    <ModeSubpageLayout pageName="Places">
       <div className="retroLabel">ABOUT / PLACES / 2026</div>
       <h1 className="retroSectionTitle">Places.</h1>
       <p className="retroParagraph" style={{ maxWidth: '800px' }}>
@@ -43,6 +43,6 @@ export default function PlacesPage() {
           </div>
         ))}
       </div>
-    </RetroSubpageLayout>
+    </ModeSubpageLayout>
   );
 }

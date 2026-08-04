@@ -16,13 +16,16 @@ import {
   IndianRupee,
   Link2,
   MapPin,
+  Monitor,
   Palette,
   Rocket,
   Sparkles,
+  Terminal,
   Wrench,
   Zap,
 } from "lucide-react";
 import { useVersion } from "@/context/VersionContext";
+import AnimatedName from "./AnimatedName";
 
 type PreviewKey =
   | "harsh"
@@ -137,6 +140,12 @@ const clientNames = [
   "Justin Moore",
 ];
 
+function withInitView(href: string) {
+  const [pathAndQuery, hash] = href.split("#");
+  const separator = pathAndQuery.includes("?") ? "&" : "?";
+  return `${pathAndQuery}${separator}view=init${hash ? `#${hash}` : ""}`;
+}
+
 function InitPreview({ preview }: { preview: PreviewState | null }) {
   return (
     <AnimatePresence>
@@ -231,7 +240,7 @@ function HoverLink({
       {children}
     </a>
   ) : (
-    <Link href={href} className="initTextLink" {...bindings}>
+    <Link href={withInitView(href)} className="initTextLink" {...bindings}>
       {children}
     </Link>
   );
@@ -298,17 +307,16 @@ export default function InitVersion() {
             );
           })}
         </nav>
+        <div className="initModeSwitch" aria-label="Switch website view">
+          <button type="button" onClick={() => setMode("modern")}><Monitor size={14} aria-hidden="true" />Modern</button>
+          <button type="button" onClick={() => setMode("classic")}><span className="initClassicMark" aria-hidden="true" />Classic</button>
+          <span><Terminal size={14} aria-hidden="true" />Init</span>
+        </div>
       </aside>
-
-      <div className="initModeSwitch" aria-label="Switch website view">
-        <span>Init</span>
-        <button type="button" onClick={() => setMode("modern")}>Modern</button>
-        <button type="button" onClick={() => setMode("classic")}>Classic</button>
-      </div>
 
       <main className="initMain">
         <header id="intro" className="initIntro initAnchorSection">
-          <div className="initSignature">harsh mishra</div>
+          <AnimatedName className="initSignature" />
           <h1>
             Hello there.<br />
             My name is <InlineChip previewKey="harsh" {...previewInteraction}><Image src="/Harsh-hero.png" alt="" width={42} height={42} /></InlineChip> Harsh.<br />
@@ -404,13 +412,13 @@ export default function InitVersion() {
         </section>
 
         <section id="places" className="initSection initAnchorSection initPersonalRow">
-          <MapPin size={19} aria-hidden="true" /><div><h2>Places</h2><p>Where I&apos;ve been and where I still want to go.</p></div><Link href="/places">Open</Link>
+          <MapPin size={19} aria-hidden="true" /><div><h2>Places</h2><p>Where I&apos;ve been and where I still want to go.</p></div><Link href="/places?view=init">Open</Link>
         </section>
         <section id="books" className="initSection initAnchorSection initPersonalRow">
-          <BookOpen size={19} aria-hidden="true" /><div><h2>Books</h2><p>Books that shaped my thinking and challenged my assumptions.</p></div><Link href="/books">Open</Link>
+          <BookOpen size={19} aria-hidden="true" /><div><h2>Books</h2><p>Books that shaped my thinking and challenged my assumptions.</p></div><Link href="/books?view=init">Open</Link>
         </section>
         <section id="kamai" className="initSection initAnchorSection initPersonalRow">
-          <IndianRupee size={19} aria-hidden="true" /><div><h2>Kamai</h2><p>Earnings, experiments, and lessons from making money as a builder.</p></div><Link href="/kamai">Open</Link>
+          <IndianRupee size={19} aria-hidden="true" /><div><h2>Kamai</h2><p>Earnings, experiments, and lessons from making money as a builder.</p></div><Link href="/kamai?view=init">Open</Link>
         </section>
         <section id="letter" className="initSection initAnchorSection initPersonalRow">
           <FilePenLine size={19} aria-hidden="true" /><div><h2>Letter</h2><p>Thoughts on confidence, evidence, building, and personal assets.</p></div><HoverLink previewKey="letter" href="/letter" {...previewInteraction}>Open</HoverLink>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, FileText, Video, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, Download, FileText, GitFork, Video, type LucideIcon } from "lucide-react";
 import {
   motion,
   useMotionValue,
@@ -38,7 +38,8 @@ interface MacApp {
   icon?: LucideIcon;
   image?: string;
   features: readonly string[];
-  hasDownload?: boolean;
+  downloadUrl?: string;
+  repoUrl?: string;
 }
 
 const macApps: MacApp[] = [
@@ -72,7 +73,8 @@ const macApps: MacApp[] = [
       "Made for macOS",
       "A lighter default-browser workflow",
     ],
-    hasDownload: true,
+    downloadUrl: "https://github.com/01xharshu/Opener-app/releases/download/V1.0/Opener.dmg",
+    repoUrl: "https://github.com/01xharshu/Opener-app",
   },
 ];
 
@@ -342,14 +344,26 @@ function BuilderAppDetail({ app }: { app: MacApp }) {
         <AppMark app={app} large />
         <h1>{app.name}</h1>
         <p>{app.detail}</p>
-        {app.hasDownload && (
-          <button
-            type="button"
-            className="builder2DownloadButton"
-            aria-label="Download Opener for Mac (download coming soon)"
-          >
-            Download for Mac
-          </button>
+        {app.downloadUrl && (
+          <div className="builder2AppActions">
+            <a
+              className="builder2DownloadButton"
+              href={app.downloadUrl}
+              aria-label={`Download ${app.name} for Mac`}
+            >
+              Download for Mac <Download size={16} aria-hidden="true" />
+            </a>
+            {app.repoUrl && (
+              <a
+                className="builder2RepoButton"
+                href={app.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View source <GitFork size={16} aria-hidden="true" />
+              </a>
+            )}
+          </div>
         )}
       </section>
 
@@ -365,8 +379,8 @@ function BuilderAppDetail({ app }: { app: MacApp }) {
       <section className="builder2AppComingSoon">
         <h2>More soon.</h2>
         <p>
-          Screenshots, download information, release notes, and the complete
-          product story will live here.
+          Screenshots, release notes, and the complete product story will live
+          here.
         </p>
       </section>
     </main>

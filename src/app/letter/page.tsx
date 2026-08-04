@@ -1,12 +1,12 @@
 "use client";
 
-import RetroSubpageLayout from "@/components/RetroSubpageLayout";
+import ModeSubpageLayout from "@/components/ModeSubpageLayout";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function LetterPage() {
   return (
-    <RetroSubpageLayout>
+    <ModeSubpageLayout pageName="Letter">
       <div className="retroLabel">ABOUT / LETTER / 2026</div>
       <h1 className="retroSectionTitle">Letter.</h1>
       <p className="retroParagraph" style={{ maxWidth: '800px' }}>
@@ -51,6 +51,6 @@ export default function LetterPage() {
           </p>
         </div>
       </section>
-    </RetroSubpageLayout>
+    </ModeSubpageLayout>
   );
 }

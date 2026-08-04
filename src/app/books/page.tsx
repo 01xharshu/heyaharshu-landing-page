@@ -1,10 +1,10 @@
 "use client";
 
-import RetroSubpageLayout from "@/components/RetroSubpageLayout";
+import ModeSubpageLayout from "@/components/ModeSubpageLayout";
 
 export default function BooksPage() {
   return (
-    <RetroSubpageLayout>
+    <ModeSubpageLayout pageName="Books">
       <div className="retroLabel">ABOUT / BOOKS / 2026</div>
       <h1 className="retroSectionTitle">Books.</h1>
       <p className="retroParagraph" style={{ maxWidth: '800px' }}>
@@ -17,6 +17,6 @@ export default function BooksPage() {
           Coming soon — content to be added.
         </p>
       </section>
-    </RetroSubpageLayout>
+    </ModeSubpageLayout>
   );
 }

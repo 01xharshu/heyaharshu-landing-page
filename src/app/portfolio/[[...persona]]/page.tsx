@@ -12,6 +12,8 @@ import Testimonials from "@/components/Testimonials";
 import DesignerWorkInProgress from "@/components/DesignerWorkInProgress";
 import BuilderPortfolio from "@/components/BuilderPortfolio";
 import CreatorPortfolio from "@/components/CreatorPortfolio";
+import ModePortfolioDetail from "@/components/ModePortfolioDetail";
+import { useVersion } from "@/context/VersionContext";
 
 const validPersonas = ["designer", "builder", "contentcreator"] as const;
 type Persona = (typeof validPersonas)[number];
@@ -42,6 +44,7 @@ export default function PortfolioPage({
 }) {
   const { persona } = use(params);
   const router = useRouter();
+  const { mode } = useVersion();
 
   // /portfolio with no persona — redirect to home
   if (!persona || persona.length === 0) {
@@ -59,6 +62,10 @@ export default function PortfolioPage({
   const builderAppSlug =
     personaSlug === "builder" && persona[1] === "apps" ? persona[2] : undefined;
 
+  if (mode !== "modern") {
+    return <ModePortfolioDetail persona={personaSlug} appSlug={builderAppSlug} />;
+  }
+
   return (
     <motion.div
       key={personaSlug}
@@ -73,7 +80,7 @@ export default function PortfolioPage({
         <div style={{ position: "absolute", top: "2rem", left: "2rem", zIndex: 10 }}>
           <RefButton
             onClick={() =>
-              router.push(builderAppSlug ? "/portfolio/builder" : "/")
+              router.push(builderAppSlug ? "/portfolio/builder?view=modern" : "/?view=modern")
             }
             text="Bring me Back"
             variant="dark"

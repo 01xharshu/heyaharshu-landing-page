@@ -5,6 +5,12 @@ import WorkGallery from "./WorkGallery";
 import Toolbar from "./Toolbar";
 import InteractiveCanvas from "./InteractiveCanvas";
 
+const layoutOptions = [
+  { value: "compact", label: "Compact" },
+  { value: "pinteresty", label: "Masonry" },
+  { value: "dynamic", label: "Dynamic" },
+] as const;
+
 function WorkContent() {
   const { layoutMode, setLayoutMode } = useWorkContext();
 
@@ -26,26 +32,26 @@ function WorkContent() {
           display: "flex", 
           gap: "0.25rem" 
         }}>
-          {["compact", "pinteresty", "dynamic"].map((mode) => (
+          {layoutOptions.map((option) => (
             <button
-              key={mode}
-              onClick={() => setLayoutMode(mode as "compact" | "pinteresty" | "dynamic")}
+              key={option.value}
+              onClick={() => setLayoutMode(option.value)}
+              aria-pressed={layoutMode === option.value}
               style={{
                 padding: "0.6rem 1.8rem",
                 borderRadius: "9999px",
                 border: "none",
-                background: layoutMode === mode ? "rgba(255, 255, 255, 0.08)" : "transparent",
-                color: layoutMode === mode ? "#fff" : "rgba(255, 255, 255, 0.5)",
-                boxShadow: layoutMode === mode ? "0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12)" : "none",
+                background: layoutMode === option.value ? "rgba(255, 255, 255, 0.08)" : "transparent",
+                color: layoutMode === option.value ? "#fff" : "rgba(255, 255, 255, 0.5)",
+                boxShadow: layoutMode === option.value ? "0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12)" : "none",
                 cursor: "pointer",
                 fontWeight: 600,
                 fontSize: "0.95rem",
                 letterSpacing: "0.01em",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                textTransform: "capitalize"
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
               }}
             >
-              {mode}
+              {option.label}
             </button>
           ))}
         </div>

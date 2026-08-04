@@ -9,7 +9,7 @@ const builderDemos = [
   { id: 2, image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
   { id: 3, image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
   { id: 4, image: "/thumb2.jpg", title: "Prompt Library", desc: "Accelerate your AI workflows with our beautifully designed collection of copy-pasteable production-ready prompts.", link: "https://prompt-library-pearl.vercel.app" },
-  { id: 5, image: "/Opener.png", title: "Opener", desc: "Choose which browser opens a link on your Mac.", link: "/builder/opener", internal: true }
+  { id: 5, image: "/Opener.png", title: "Opener", desc: "Choose which browser opens a link on your Mac.", link: "/portfolio/builder/apps/opener?view=classic", internal: true }
 ];
 
 export default function BuilderPage() {

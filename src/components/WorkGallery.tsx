@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { createPortal } from "react-dom";
 import workData from "../data/work.json";
@@ -22,8 +22,6 @@ interface WorkItem {
     image: string;
   };
 }
-
-import { MotionValue } from "framer-motion";
 
 function DockItem({ mouse, children, onClick }: { mouse: MotionValue<number>, children: React.ReactNode, onClick: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -112,12 +110,8 @@ export default function WorkGallery() {
 
   useEffect(() => {
     const workParam = searchParams.get("work");
-    if (workParam) {
-      const timer = setTimeout(() => setSelectedWorkId(workParam), 0);
-      return () => clearTimeout(timer);
-    } else {
-      setSelectedWorkId(null);
-    }
+    const timer = setTimeout(() => setSelectedWorkId(workParam), 0);
+    return () => clearTimeout(timer);
   }, [searchParams]);
 
   // Reset positions and states when entering dynamic mode
@@ -247,7 +241,30 @@ export default function WorkGallery() {
             const currentScale = cardScales[item.id] || 1;
 
             const hasCreatorImage = layoutMode === "compact" && !!item.testimonial?.image;
-            const cardContent = layoutMode === "compact" ? (
+            const cardContent = layoutMode === "dynamic" ? (
+              <article className="dynamicWorkCard">
+                <div className="dynamicWorkCardMedia">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="300px"
+                    className="dynamicWorkCardImage"
+                    onError={(event) => { event.currentTarget.style.display = "none"; }}
+                  />
+                  <span className="dynamicWorkCardIndex">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <footer className="dynamicWorkCardMeta">
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.channelName}</p>
+                  </div>
+                  <span aria-hidden="true">↗</span>
+                </footer>
+              </article>
+            ) : layoutMode === "compact" ? (
               <div 
                 style={{
                   background: "rgba(255, 255, 255, 0.03)",
@@ -311,25 +328,21 @@ export default function WorkGallery() {
                   WebkitBackdropFilter: "blur(20px) saturate(1.4)",
                   display: "flex",
                   flexDirection: "column",
-                  cursor: (layoutMode === "dynamic" && activeTool === "pointer") ? "grab" : (activeTool === "scale" ? "zoom-in" : "pointer"),
-                  transition: layoutMode !== "dynamic" ? "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)" : "none",
+                  cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
                   height: "auto"
                 }}
                 onMouseEnter={(e) => {
-                  if (layoutMode !== "dynamic") {
-                    e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
-                    e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
-                    e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.14)";
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                  }
+                  e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
+                  e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.14)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
                 }}
                 onMouseLeave={(e) => {
-                  if (layoutMode !== "dynamic") {
-                    e.currentTarget.style.transform = "translateY(0) scale(1)";
-                    e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)";
-                    e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.08)";
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
-                  }
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)";
+                  e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.08)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
                 }}
               >
                 <div style={{ 

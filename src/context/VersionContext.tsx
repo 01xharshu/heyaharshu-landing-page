@@ -4,6 +4,10 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 
 export type ViewMode = "modern" | "classic" | "init";
 
+function isViewMode(value: string | null): value is ViewMode {
+  return value === "modern" || value === "classic" || value === "init";
+}
+
 interface VersionContextType {
   mode: ViewMode;
   isOldVersion: boolean;
@@ -18,23 +22,40 @@ export function VersionProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<ViewMode>("modern");
 
   useEffect(() => {
-    // Ensure we are running on client
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const requestedMode = params.get("view");
-      if (requestedMode === "classic" || requestedMode === "init" || requestedMode === "modern") {
-        const timer = setTimeout(() => setModeState(requestedMode), 0);
-        return () => clearTimeout(timer);
+    const syncModeFromLocation = () => {
+      const url = new URL(window.location.href);
+      const requestedMode = url.searchParams.get("view");
+      const rememberedMode = window.sessionStorage.getItem("harsh-view-mode");
+      const nextMode = isViewMode(requestedMode)
+        ? requestedMode
+        : isViewMode(rememberedMode)
+          ? rememberedMode
+          : "modern";
+
+      setModeState(nextMode);
+      window.sessionStorage.setItem("harsh-view-mode", nextMode);
+
+      if (!isViewMode(requestedMode)) {
+        url.searchParams.set("view", nextMode);
+        window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
       }
-    }
+    };
+
+    const timer = setTimeout(syncModeFromLocation, 0);
+    window.addEventListener("popstate", syncModeFromLocation);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("popstate", syncModeFromLocation);
+    };
   }, []);
 
   const setMode = (nextMode: ViewMode) => {
     setModeState(nextMode);
     if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      params.set("view", nextMode);
-      window.history.pushState(null, "", `?${params.toString()}`);
+      const url = new URL(window.location.href);
+      url.searchParams.set("view", nextMode);
+      window.sessionStorage.setItem("harsh-view-mode", nextMode);
+      window.history.pushState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
   };
 
