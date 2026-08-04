@@ -3433,6 +3433,167 @@ a {
   object-fit: cover;
 }
 
+.builder2DockStage {
+  position: relative;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.builder2DockStage::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 20% 8% 8%;
+  opacity: .34;
+  background:
+    radial-gradient(circle at 25% 65%, rgba(86, 124, 164, .36), transparent 34%),
+    radial-gradient(circle at 68% 40%, rgba(166, 101, 73, .18), transparent 32%),
+    linear-gradient(145deg, rgba(255,255,255,.025), transparent 55%);
+  filter: blur(34px);
+}
+
+.builder2DockGlass {
+  position: relative;
+  min-height: 104px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 16px 19px 14px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 29px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.045) 42%, rgba(255,255,255,.075)),
+    rgba(24, 27, 31, .42);
+  box-shadow:
+    0 28px 70px rgba(0,0,0,.46),
+    0 8px 24px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -1px 0 rgba(255,255,255,.08),
+    inset 8px 0 18px rgba(255,255,255,.025),
+    inset -8px 0 18px rgba(255,255,255,.025);
+  backdrop-filter: blur(30px) saturate(1.55);
+  -webkit-backdrop-filter: blur(30px) saturate(1.55);
+}
+
+.builder2DockGlass::before {
+  content: "";
+  position: absolute;
+  inset: 2px 14px auto;
+  height: 38%;
+  border-radius: 999px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,.12), transparent);
+  filter: blur(5px);
+}
+
+.builder2DockGlass::after {
+  content: "";
+  position: absolute;
+  right: 11%;
+  bottom: 5px;
+  left: 11%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.2), transparent);
+}
+
+.builder2DockItem {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  outline: none;
+}
+
+.builder2DockIcon {
+  position: relative;
+  z-index: 2;
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.builder2DockIcon .builder2AppMark {
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.02)),
+    #17191c;
+  box-shadow:
+    0 13px 24px rgba(0,0,0,.36),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.builder2DockIcon .builder2AppMarkImage {
+  background: transparent;
+}
+
+.builder2DockTooltip {
+  position: absolute;
+  z-index: 5;
+  bottom: calc(100% + 27px);
+  left: 50%;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 13px;
+  color: rgba(255,255,255,.92);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.055)),
+    rgba(22, 24, 28, .52);
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.36),
+    inset 0 1px 0 rgba(255,255,255,.3),
+    inset 0 -1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  font-size: .78rem;
+  font-weight: 520;
+  letter-spacing: -.01em;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, 8px) scale(.94);
+  transform-origin: center bottom;
+  transition: opacity .18s ease, transform .22s cubic-bezier(.2,.8,.2,1);
+}
+
+.builder2DockTooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid rgba(255,255,255,.18);
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  background: rgba(38, 40, 44, .7);
+  transform: translate(-50%, -5px) rotate(45deg);
+}
+
+.builder2DockItem:hover .builder2DockTooltip,
+.builder2DockItem:focus-visible .builder2DockTooltip {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.builder2DockItem:focus-visible .builder2DockIcon .builder2AppMark {
+  box-shadow:
+    0 13px 24px rgba(0,0,0,.36),
+    0 0 0 2px rgba(255,255,255,.72),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+
 .builder2AppPage {
   padding-top: 4rem;
 }
@@ -3633,6 +3794,48 @@ a {
 
   .builder2AppFacts > div:last-child {
     border-bottom: 0;
+  }
+
+  .builder2DockStage {
+    min-height: 310px;
+  }
+
+  .builder2DockGlass {
+    gap: 8px;
+    padding-inline: 13px;
+  }
+
+  .builder2DockItem {
+    width: 62px;
+  }
+
+  .builder2DockIcon,
+  .builder2DockIcon .builder2AppMark {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (hover: none) {
+  .builder2DockStage {
+    padding-top: 44px;
+  }
+
+  .builder2DockTooltip {
+    bottom: calc(100% + 15px);
+    padding: 5px 8px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    font-size: .66rem;
+    opacity: .62;
+    transform: translateX(-50%);
+  }
+
+  .builder2DockTooltip::after {
+    display: none;
   }
 }
 

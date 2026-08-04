@@ -1,9 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, FileText, Video, type LucideIcon } from "lucide-react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
 const figmaPlugins = [
   {
@@ -249,6 +257,78 @@ function AppMark({ app, large = false }: { app: MacApp; large?: boolean }) {
   );
 }
 
+function DockApp({
+  app,
+  pointerX,
+}: {
+  app: MacApp;
+  pointerX: MotionValue<number>;
+}) {
+  const itemRef = useRef<HTMLAnchorElement>(null);
+  const reduceMotion = useReducedMotion();
+  const distance = useTransform(pointerX, (value) => {
+    const bounds = itemRef.current?.getBoundingClientRect();
+    if (!bounds) return 220;
+    return value - bounds.left - bounds.width / 2;
+  });
+  const scaleTarget = useTransform(
+    distance,
+    [-150, 0, 150],
+    [1, reduceMotion ? 1 : 1.62, 1],
+  );
+  const liftTarget = useTransform(
+    distance,
+    [-150, 0, 150],
+    [0, reduceMotion ? 0 : -18, 0],
+  );
+  const scale = useSpring(scaleTarget, { mass: 0.12, stiffness: 260, damping: 18 });
+  const y = useSpring(liftTarget, { mass: 0.12, stiffness: 260, damping: 18 });
+
+  const focusIcon = () => {
+    const bounds = itemRef.current?.getBoundingClientRect();
+    if (bounds) pointerX.set(bounds.left + bounds.width / 2);
+  };
+
+  return (
+    <Link
+      ref={itemRef}
+      href={`/portfolio/builder/apps/${app.slug}`}
+      className="builder2DockItem"
+      aria-label={`Open ${app.name} app page`}
+      onFocus={focusIcon}
+      onBlur={() => pointerX.set(Number.POSITIVE_INFINITY)}
+    >
+      <span className="builder2DockTooltip" role="tooltip">
+        {app.name}
+      </span>
+      <motion.span className="builder2DockIcon" style={{ scale, y }}>
+        <AppMark app={app} />
+      </motion.span>
+    </Link>
+  );
+}
+
+function MacAppDock() {
+  const pointerX = useMotionValue(Number.POSITIVE_INFINITY);
+
+  return (
+    <div className="builder2DockStage">
+      <nav
+        className="builder2DockGlass"
+        aria-label="Mac apps"
+        onPointerMove={(event) => {
+          if (event.pointerType === "mouse") pointerX.set(event.clientX);
+        }}
+        onPointerLeave={() => pointerX.set(Number.POSITIVE_INFINITY)}
+      >
+        {macApps.map((app) => (
+          <DockApp key={app.slug} app={app} pointerX={pointerX} />
+        ))}
+      </nav>
+    </div>
+  );
+}
+
 function BuilderAppDetail({ app }: { app: MacApp }) {
   return (
     <main className="builder2AppPage">
@@ -352,22 +432,7 @@ export default function BuilderPortfolio({ appSlug }: { appSlug?: string }) {
         <header className="builder2SectionHeader">
           <h2 id="builder-apps">Mac apps</h2>
         </header>
-
-        <div className="builder2AppList">
-          {macApps.map((app, index) => (
-            <Link
-              key={app.slug}
-              href={`/portfolio/builder/apps/${app.slug}`}
-              className="builder2App"
-            >
-              <span className="builder2Index">{String(index + 1).padStart(2, "0")}</span>
-              <AppMark app={app} />
-              <h3>{app.name}</h3>
-              <p>{app.description}</p>
-              <ArrowUpRight size={19} aria-hidden="true" />
-            </Link>
-          ))}
-        </div>
+        <MacAppDock />
       </section>
     </main>
   );
