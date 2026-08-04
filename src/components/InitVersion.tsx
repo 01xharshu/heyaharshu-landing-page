@@ -12,7 +12,6 @@ import {
   Code2,
   FilePenLine,
   Hand,
-  Handshake,
   IndianRupee,
   Link2,
   MapPin,
@@ -59,11 +58,13 @@ interface PreviewInteractionProps {
   hidePreview: () => void;
 }
 
+const harshProfileImage = "https://pbs.twimg.com/profile_images/2016517780863102976/m-zQIYYI_400x400.jpg";
+
 const previews: Record<PreviewKey, PreviewData> = {
   harsh: {
     title: "Harsh Mishra",
     description: "Designer, builder, and content creator.",
-    image: "/Harsh-hero.png",
+    image: harshProfileImage,
     portrait: true,
   },
   designer: {
@@ -116,7 +117,6 @@ const indexItems = [
   { id: "now", label: "Now", icon: Zap },
   { id: "launches", label: "Recent launches", icon: Rocket },
   { id: "experience", label: "Experience", icon: BriefcaseBusiness },
-  { id: "clients", label: "Clients", icon: Handshake },
   { id: "design", label: "Design work", icon: Palette },
   { id: "builder", label: "Builder", icon: Code2 },
   { id: "content", label: "Content journey", icon: Sparkles },
@@ -127,17 +127,6 @@ const indexItems = [
   { id: "letter", label: "Letter", icon: FilePenLine },
   { id: "tools", label: "Skills & tools", icon: Wrench },
   { id: "links", label: "Links", icon: Link2 },
-];
-
-const clientNames = [
-  "Josh Talks",
-  "Prakhar ke Pravachan",
-  "Bekifaayati",
-  "Ishan Sharma",
-  "Umer Qureshi",
-  "Food Pharmer",
-  "Aaditya Iyengar",
-  "Justin Moore",
 ];
 
 function withInitView(href: string) {
@@ -301,16 +290,16 @@ export default function InitVersion() {
                 href={`#${item.id}`}
                 className={activeSection === item.id ? "active" : ""}
               >
-                <Icon size={15} strokeWidth={1.7} aria-hidden="true" />
+                <Icon size={17} strokeWidth={1.75} aria-hidden="true" />
                 <span>{item.label}</span>
               </a>
             );
           })}
         </nav>
         <div className="initModeSwitch" aria-label="Switch website view">
-          <button type="button" onClick={() => setMode("modern")}><Monitor size={14} aria-hidden="true" />Modern</button>
+          <button type="button" onClick={() => setMode("modern")}><Monitor size={16} aria-hidden="true" />Modern</button>
           <button type="button" onClick={() => setMode("classic")}><span className="initClassicMark" aria-hidden="true" />Classic</button>
-          <span><Terminal size={14} aria-hidden="true" />Init</span>
+          <span><Terminal size={16} aria-hidden="true" />Init</span>
         </div>
       </aside>
 
@@ -319,8 +308,8 @@ export default function InitVersion() {
           <AnimatedName className="initSignature" />
           <h1>
             Hello there.<br />
-            My name is <InlineChip previewKey="harsh" {...previewInteraction}><Image src="/Harsh-hero.png" alt="" width={42} height={42} /></InlineChip> Harsh.<br />
-            I design <InlineChip previewKey="designer" {...previewInteraction}><Image src="/cards/design.png" alt="" width={42} height={42} /></InlineChip>, build <InlineChip previewKey="builder" {...previewInteraction}><Image src="/cards/build.png" alt="" width={42} height={42} /></InlineChip>, and create <InlineChip previewKey="creator" {...previewInteraction}><Image src="/cards/content.png" alt="" width={42} height={42} /></InlineChip>.
+            My name is <InlineChip previewKey="harsh" {...previewInteraction}><Image src={harshProfileImage} alt="" width={64} height={64} /></InlineChip> Harsh.<br />
+            I design <InlineChip previewKey="designer" {...previewInteraction}><Image src="/cards/design.png" alt="" width={64} height={64} /></InlineChip>, build <InlineChip previewKey="builder" {...previewInteraction}><Image src="/cards/build.png" alt="" width={64} height={64} /></InlineChip>, and create <InlineChip previewKey="creator" {...previewInteraction}><Image src="/cards/content.png" alt="" width={64} height={64} /></InlineChip>.
           </h1>
 
           <div className="initIntroCopy">
@@ -376,13 +365,6 @@ export default function InitVersion() {
             <div><span>2021 — now</span><strong>Freelance thumbnail designer</strong><p>Designing high-converting visual work for creators and their audiences.</p></div>
             <div><span>2022 — now</span><strong>Figma to published plugins</strong><p>From opening Figma for the first time to shipping tools in the community.</p></div>
             <div><span>8th standard — now</span><strong>Content creator</strong><p>Learning confidence by making, speaking, and documenting the process.</p></div>
-          </div>
-        </section>
-
-        <section id="clients" className="initSection initAnchorSection">
-          <h2>Selected clients</h2>
-          <div className="initClientCloud">
-            {clientNames.map((name) => <span key={name}>{name}</span>)}
           </div>
         </section>
 

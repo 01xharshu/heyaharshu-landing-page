@@ -3231,18 +3231,12 @@ a {
 .initIndex {
   position: sticky;
   z-index: 20;
-  top: 72px;
+  top: 32px;
   align-self: start;
   width: 220px;
-  max-height: calc(100vh - 96px);
-  overflow-y: auto;
-  margin-top: clamp(150px, 28vh, 310px);
+  overflow: visible;
+  margin-top: clamp(72px, 12vh, 130px);
   padding: 6px 16px 6px 0;
-  scrollbar-width: none;
-}
-
-.initIndex::-webkit-scrollbar {
-  display: none;
 }
 
 .initIndexLabel {
@@ -3261,14 +3255,20 @@ a {
 
 .initIndex a {
   position: relative;
-  min-height: 31px;
+  min-height: 27px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 5px 10px 5px 15px;
+  gap: 9px;
+  padding: 4px 10px 4px 15px;
   color: #9b9b99;
   font-size: .77rem;
   transition: color .18s ease, transform .18s ease;
+}
+
+.initIndex nav a > svg {
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 1.05em;
 }
 
 .initIndex a::before {
@@ -3307,15 +3307,23 @@ a {
 
 .initModeSwitch > span,
 .initModeSwitch > button {
-  min-height: 30px;
+  min-height: 27px;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   border: 0;
   padding: 5px 0;
   font: inherit;
-  font-size: .72rem;
+  font-size: .75rem;
   text-align: left;
+}
+
+.initModeSwitch > span > svg,
+.initModeSwitch > button > svg,
+.initModeSwitch .initClassicMark {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
 }
 
 .initModeSwitch > span {
@@ -3381,25 +3389,21 @@ a {
 }
 
 .initInlineChip {
-  width: .92em;
-  height: .92em;
+  width: 1em;
+  height: 1em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   margin: 0 .05em;
   padding: 0;
-  border: 3px solid #fff;
-  border-radius: .22em;
-  vertical-align: -.08em;
+  border: 2px solid #fff;
+  border-radius: .18em;
+  vertical-align: -.12em;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,.16);
   cursor: zoom-in;
   transition: transform .18s ease, box-shadow .18s ease;
-}
-
-.initInlineChip:first-of-type {
-  border-radius: 50%;
 }
 
 .initInlineChip:hover,
@@ -3577,27 +3581,6 @@ a {
   color: #62625f;
   font-size: .88rem;
   line-height: 1.55;
-}
-
-.initClientCloud {
-  display: flex;
-  flex-wrap: wrap;
-  border-top: 1px solid #dededb;
-  border-left: 1px solid #dededb;
-}
-
-.initClientCloud span {
-  flex: 1 1 240px;
-  padding: 22px;
-  border-right: 1px solid #dededb;
-  border-bottom: 1px solid #dededb;
-  font-size: .94rem;
-  transition: color .2s ease, background .2s ease;
-}
-
-.initClientCloud span:hover {
-  color: #fff;
-  background: #111;
 }
 
 .initSplitSection {
