@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         hostname: 'pbs.twimg.com',
         pathname: '/profile_images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+        pathname: '/media/**',
+      },
     ],
   },
 };

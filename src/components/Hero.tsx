@@ -27,7 +27,7 @@ export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
 
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      // Prevent page scrolling
+      if ((e.target as HTMLElement).closest(".floatingCardsContainer")) return;
       e.preventDefault();
 
       if (e.deltaY > 0 && !cardsVisible) {
@@ -38,7 +38,7 @@ export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
         setCardsVisible(false);
       }
     },
-    [cardsVisible]
+    [cardsVisible, setCardsVisible]
   );
 
   useEffect(() => {
@@ -56,6 +56,7 @@ export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
     };
 
     const handleTouchMove = (e: TouchEvent) => {
+      if ((e.target as HTMLElement).closest(".floatingCardsContainer")) return;
       const touchDelta = touchStartY - e.touches[0].clientY;
       if (touchDelta > 30 && !cardsVisible) {
         setCardsVisible(true);
@@ -70,7 +71,7 @@ export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [cardsVisible]);
+  }, [cardsVisible, setCardsVisible]);
 
   return (
     <section className="heroSection heroSectionLocked">
@@ -132,6 +133,7 @@ export default function Hero({ cardsVisible, setCardsVisible }: HeroProps) {
         <p className="subtitle">
           I have multiple personalities choose one that suits your need
         </p>
+        <button className="heroChooseButton" onClick={() => setCardsVisible(true)}>Choose a personality ↓</button>
       </motion.div>
 
       {/* Floating Cards */}

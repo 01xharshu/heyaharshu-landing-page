@@ -25,7 +25,7 @@ export default function RetroSubpageLayout({ children }: RetroSubpageLayoutProps
           <Link href="/?view=classic#projects" className="retroNavItem">Projects</Link>
           
           <div className="retroDropdownContainer">
-            <Link href="/?view=classic#work" className="retroNavItem">Work</Link>
+            <Link href="/?view=classic#as-designer" className="retroNavItem">Work</Link>
             <div className="retroDropdownMenu">
               <Link href="/?view=classic#as-designer" className="retroDropdownCard">As Designer</Link>
               <Link href="/?view=classic#as-content-creator" className="retroDropdownCard">As Content Creator</Link>
@@ -58,8 +58,8 @@ export default function RetroSubpageLayout({ children }: RetroSubpageLayoutProps
         </div>
         
         <nav className="retroHeaderNav">
-          <Link href="https://twitter.com" className="retroNavItem">Twitter</Link>
-          <Link href="https://github.com" className="retroNavItem">GitHub</Link>
+          <Link href="https://x.com/heyaharshu" className="retroNavItem">Twitter</Link>
+          <Link href="https://github.com/01xharshu" className="retroNavItem">GitHub</Link>
           <Link href="https://linkedin.com" className="retroNavItem">LinkedIn</Link>
         </nav>
 

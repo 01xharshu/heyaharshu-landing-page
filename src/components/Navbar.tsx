@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useVersion } from "@/context/VersionContext";
 import RefButton from "./RefButton";
-import AnimatedName from "./AnimatedName";
 
 export default function Navbar() {
   const { mode, setMode } = useVersion();
@@ -20,15 +19,8 @@ export default function Navbar() {
           {/* Left: Navigation Links */}
           <div className="navLinks" style={{ justifySelf: 'start' }}>
             <Link href="#about" className="navItem">About</Link>
-            <Link href="#experiences" className="navItem">Experiences</Link>
-            <Link href="#partners" className="navItem">Partners</Link>
           </div>
 
-          {/* Center: Logo */}
-          <div className="logoContainer" style={{ justifySelf: 'center' }}>
-            <AnimatedName className="logoText" />
-          </div>
-          
           {/* Right: Action Buttons */}
           <div className="navActions">
             <RefButton onClick={() => setMode("classic")} text="Classic" variant="dark" />

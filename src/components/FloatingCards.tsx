@@ -108,6 +108,15 @@ export default function FloatingCards({ visible }: FloatingCardsProps) {
                 delay: index * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
+              role="button"
+              tabIndex={0}
+              aria-label={`View ${persona.title} portfolio`}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  handleCardClick(persona);
+                }
+              }}
               onClick={() => handleCardClick(persona)}
             >
               <div className="arenaCardImageWrapper">

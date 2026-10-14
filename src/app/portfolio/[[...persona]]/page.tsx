@@ -87,6 +87,14 @@ export default function PortfolioPage({
           />
         </div>
 
+        <div className="personaGalleryLink">
+          <RefButton
+            onClick={() => router.push(`/gallery?view=modern&from=${personaSlug}`)}
+            text="Gallery"
+            variant="dark"
+          />
+        </div>
+
         <div className="personaHeaderContent">
           {personaSlug === "contentcreator" && (
             <h1 className="personaHeaderTitle">{meta.title}</h1>

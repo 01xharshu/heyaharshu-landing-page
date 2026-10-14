@@ -25,8 +25,11 @@ import {
 } from "lucide-react";
 import { useVersion } from "@/context/VersionContext";
 import AnimatedName from "./AnimatedName";
+import RecentProjects from "./RecentProjects";
 
 type PreviewKey =
+  | "agency"
+  | "earlyContent"
   | "harsh"
   | "designer"
   | "builder"
@@ -43,6 +46,7 @@ interface PreviewData {
   image?: string;
   kind?: "hanumankind";
   portrait?: boolean;
+  contain?: boolean;
 }
 
 interface PreviewState extends PreviewData {
@@ -61,6 +65,18 @@ interface PreviewInteractionProps {
 const harshProfileImage = "https://pbs.twimg.com/profile_images/2016517780863102976/m-zQIYYI_400x400.jpg";
 
 const previews: Record<PreviewKey, PreviewData> = {
+  agency: {
+    title: "TheBrandingFolks",
+    description: "CoFounder · Building personal brands through content and design.",
+    image: "/previews/thebrandingfolks-home.jpg",
+    contain: true,
+  },
+  earlyContent: {
+    title: "Where content creation started",
+    description: "Tech videos, a Samsung Galaxy J1 Ace, and a dream of becoming a YouTuber.",
+    image: "/previews/early-samsung-video.png",
+    contain: true,
+  },
   harsh: {
     title: "Harsh Mishra",
     description: "Designer, builder, and content creator.",
@@ -161,6 +177,7 @@ function InitPreview({ preview }: { preview: PreviewState | null }) {
                 fill
                 sizes="(max-width: 760px) 0px, 480px"
                 className="initHoverPreviewImage"
+                style={preview.contain ? { objectFit: "contain", background: "#121212" } : undefined}
               />
             ) : null}
           </div>
@@ -313,6 +330,7 @@ export default function InitVersion() {
           </h1>
 
           <div className="initIntroCopy">
+            <p>I&apos;m now CoFounder of <HoverLink previewKey="agency" href="https://thebrandingfolks.in" external {...previewInteraction}>TheBrandingFolks</HoverLink>, where we help people build their personal brands through content and design.</p>
             <p>
               I&apos;m a freelance <HoverLink previewKey="designer" href="/portfolio/designer" {...previewInteraction}>thumbnail designer</HoverLink> and builder. Since 2021, I&apos;ve designed for creators reaching a combined audience of <strong>20M+ and counting.</strong>
             </p>
@@ -320,7 +338,7 @@ export default function InitVersion() {
               On the side I&apos;m making <HoverLink previewKey="opener" href="/portfolio/builder/apps/opener" {...previewInteraction}>Opener</HoverLink> for macOS, publishing Figma tools like <HoverLink previewKey="texometric" href="https://www.figma.com/community/plugin/1644918796465469562/texometric" external {...previewInteraction}>Texometric</HoverLink>, and rebuilding a concept site for <HoverLink previewKey="hanumankind" href="https://github.com/01xharshu/hanumankind-india" external {...previewInteraction}>Hanumankind</HoverLink>.
             </p>
             <p>
-              I started making content in the eighth standard with a dream of becoming a tech YouTuber. Creating made me more confident; building taught me to keep following curiosity.
+              I started creating content back in the eighth standard with a <HoverLink previewKey="earlyContent" href="#content" {...previewInteraction}>Samsung Galaxy J1 Ace</HoverLink> and a dream of becoming a tech YouTuber. Creating made me more confident; building taught me to keep following curiosity.
             </p>
           </div>
 
@@ -333,6 +351,10 @@ export default function InitVersion() {
             <details>
               <summary>Designing for creators</summary>
               <p>Thumbnail systems and visual direction for creators across education, finance, food, and culture.</p>
+            </details>
+            <details>
+              <summary>Building The Last Monsoon</summary>
+              <p>A historical open-world survival game set around 1857, currently in pre-alpha. <a href="https://the-last-monsoon.vercel.app" target="_blank" rel="noreferrer">Explore the project website ↗</a></p>
             </details>
             <details>
               <summary>Building Opener</summary>
@@ -350,7 +372,8 @@ export default function InitVersion() {
         </section>
 
         <section id="launches" className="initSection initAnchorSection">
-          <h2>Recent launches</h2>
+          <h2>Projects I&apos;m making</h2>
+          <RecentProjects variant="init" />
           <div className="initProjectList">
             <HoverLink previewKey="opener" href="/portfolio/builder/apps/opener" {...previewInteraction}><span>Opener</span><small>Mac app</small><b>2026</b></HoverLink>
             <HoverLink previewKey="texometric" href="https://www.figma.com/community/plugin/1644918796465469562/texometric" external {...previewInteraction}><span>Texometric</span><small>Figma plugin</small><b>2026</b></HoverLink>
@@ -362,6 +385,7 @@ export default function InitVersion() {
         <section id="experience" className="initSection initAnchorSection">
           <h2>Experience</h2>
           <div className="initTimeline">
+            <div><span>Now</span><strong>CoFounder · TheBrandingFolks</strong><p>Building personal brands through content, design, and storytelling.</p></div>
             <div><span>2021 — now</span><strong>Freelance thumbnail designer</strong><p>Designing high-converting visual work for creators and their audiences.</p></div>
             <div><span>2022 — now</span><strong>Figma to published plugins</strong><p>From opening Figma for the first time to shipping tools in the community.</p></div>
             <div><span>8th standard — now</span><strong>Content creator</strong><p>Learning confidence by making, speaking, and documenting the process.</p></div>
@@ -380,7 +404,7 @@ export default function InitVersion() {
 
         <section id="content" className="initSection initAnchorSection initSplitSection">
           <div><span>03</span><h2>Content creator</h2></div>
-          <p>I started with a Samsung Galaxy J1 Ace and a curiosity for tech. The format changed; the instinct to make things public stayed. <HoverLink previewKey="creator" href="/portfolio/contentcreator" {...previewInteraction}>Open the creator portfolio.</HoverLink></p>
+          <p>I started with a <HoverLink previewKey="earlyContent" href="#content" {...previewInteraction}>Samsung Galaxy J1 Ace</HoverLink> and a curiosity for tech. The format changed; the instinct to make things public stayed. <HoverLink previewKey="creator" href="/portfolio/contentcreator" {...previewInteraction}>Open the creator portfolio.</HoverLink></p>
         </section>
 
         <section id="numbers" className="initSection initAnchorSection">

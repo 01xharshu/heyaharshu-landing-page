@@ -1,4 +1,5 @@
 "use client";
+import RecentProjects from "./RecentProjects";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -62,6 +63,7 @@ function ClassicPortfolioDetail({ persona, appSlug }: { persona: Persona; appSlu
           )}
           {persona === "builder" && (
             <>
+              <RecentProjects variant="classic" />
               <Link href="/portfolio/builder/apps/opener?view=classic">Opener →</Link>
               <a href="https://www.figma.com/community/plugin/1644918796465469562/texometric" target="_blank" rel="noreferrer">Texometric ↗</a>
               <a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noreferrer">Carousel Export ↗</a>
