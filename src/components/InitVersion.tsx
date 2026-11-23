@@ -25,7 +25,6 @@ import {
 } from "lucide-react";
 import { useVersion } from "@/context/VersionContext";
 import AnimatedName from "./AnimatedName";
-import RecentProjects from "./RecentProjects";
 
 type PreviewKey =
   | "agency"
@@ -373,12 +372,14 @@ export default function InitVersion() {
 
         <section id="launches" className="initSection initAnchorSection">
           <h2>Projects I&apos;m making</h2>
-          <RecentProjects variant="init" />
           <div className="initProjectList">
-            <HoverLink previewKey="opener" href="/portfolio/builder/apps/opener" {...previewInteraction}><span>Opener</span><small>Mac app</small><b>2026</b></HoverLink>
             <HoverLink previewKey="texometric" href="https://www.figma.com/community/plugin/1644918796465469562/texometric" external {...previewInteraction}><span>Texometric</span><small>Figma plugin</small><b>2026</b></HoverLink>
             <HoverLink previewKey="carousel" href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" external {...previewInteraction}><span>Carousel Export</span><small>Figma plugin</small><b>2026</b></HoverLink>
-            <HoverLink previewKey="hanumankind" href="https://github.com/01xharshu/hanumankind-india" external {...previewInteraction}><span>Hanumankind</span><small>Concept website</small><b>2026</b></HoverLink>
+            <div className="initFeaturedPair">
+              <span>Tipsy Docy / UnCanva</span>
+              <small><a href="https://tipsydocy.vercel.app" target="_blank" rel="noreferrer">Tipsy Docy ↗</a><a href="https://uncanva-web.vercel.app" target="_blank" rel="noreferrer">UnCanva ↗</a></small>
+              <b>2026</b>
+            </div>
           </div>
         </section>
 

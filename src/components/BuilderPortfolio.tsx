@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { figmaPlugins } from "@/data/figma-plugins";
+import RecentProjects from "./RecentProjects";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Download, FileText, GitFork, Video, type LucideIcon } from "lucide-react";
@@ -13,22 +15,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 
-const figmaPlugins = [
-  {
-    name: "Texometric",
-    description:
-      "A typography tool for getting more precision from text inside Figma.",
-    image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png",
-    href: "https://www.figma.com/community/plugin/1644918796465469562/texometric",
-  },
-  {
-    name: "Carousel Export",
-    description:
-      "Export carousel frames as one PDF or a set of separate PNGs.",
-    image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png",
-    href: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin",
-  },
-];
 
 interface MacApp {
   slug: string;
@@ -424,6 +410,11 @@ export default function BuilderPortfolio({ appSlug }: { appSlug?: string }) {
             </a>
           ))}
         </div>
+      </section>
+
+      <section className="builder2Section" aria-labelledby="builder-websites">
+        <header className="builder2SectionHeader"><h2 id="builder-websites">Web projects</h2></header>
+        <RecentProjects variant="modern" />
       </section>
 
       <GitHubActivity />

@@ -3,6 +3,7 @@
 import React from "react";
 import { useVersion } from "@/context/VersionContext";
 import RefButton from "./RefButton";
+import { figmaPlugins } from "@/data/figma-plugins";
 import Image from "next/image";
 import Link from "next/link";
 import AnimatedName from "./AnimatedName";
@@ -11,10 +12,9 @@ import RecentProjects from "./RecentProjects";
 const designerDemos: { id: number; image: string; title: string; desc: string; link?: string }[] = [];
 const creatorDemos: { id: number; image: string; title: string; desc: string; link?: string }[] = [];
 
-const builderDemos = [
+const builderDemos: { id: number; image: string; title: string; desc: string; link: string; internal?: boolean }[] = [
+  ...figmaPlugins.map((plugin, index) => ({ id: 100 + index, image: plugin.image, title: plugin.name, desc: plugin.description, link: plugin.href, internal: false })),
   { id: 1, image: "/cards/build.png", title: "Video Transcribe", desc: "Transcribe videos directly on your Mac. A simple and efficient tool for video creators.", link: "https://video-transcripter-green.vercel.app/" },
-  { id: 2, image: "/cd26cd88-c1a2-4b69-86e8-258290b6d24a-icon.png", title: "Texometric", desc: "A Figma plugin for typography. My 2nd plugin for Figma, built to help designers get maximum text precision.", link: "https://www.figma.com/community/plugin/1644918796465469562/texometric" },
-  { id: 3, image: "/a2fc4071-8e90-4df0-8e70-7bced5b2f57f-icon.png", title: "Carousel Export Plugin", desc: "A Figma plugin made to help designers easily export Carousels in a combined PDF or as separate PNGs in just one go.", link: "https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" },
   { id: 4, image: "/Opener.png", title: "Opener", desc: "Choose which browser opens a link on your Mac.", link: "/portfolio/builder/apps/opener?view=classic", internal: true }
 ];
 
@@ -191,6 +191,7 @@ export default function OldVersion() {
               Writing code, designing systems, and bringing ideas to life.
               I focus on creating seamless user experiences powered by robust and scalable architecture.
             </p>
+            <RecentProjects variant="classic" />
             <div className="retroCardGrid">
               {builderDemos.map((demo, index) => {
                 if (demo.internal) {

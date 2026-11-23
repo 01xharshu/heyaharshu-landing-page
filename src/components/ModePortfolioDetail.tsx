@@ -1,4 +1,5 @@
 "use client";
+import FigmaPlugins from "./FigmaPlugins";
 import RecentProjects from "./RecentProjects";
 
 import Image from "next/image";
@@ -65,8 +66,7 @@ function ClassicPortfolioDetail({ persona, appSlug }: { persona: Persona; appSlu
             <>
               <RecentProjects variant="classic" />
               <Link href="/portfolio/builder/apps/opener?view=classic">Opener →</Link>
-              <a href="https://www.figma.com/community/plugin/1644918796465469562/texometric" target="_blank" rel="noreferrer">Texometric ↗</a>
-              <a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noreferrer">Carousel Export ↗</a>
+              <FigmaPlugins variant="classic" />
             </>
           )}
           {persona === "contentcreator" && <p className="retroParagraph">Instagram reels will be added here without leaving Classic view.</p>}
@@ -117,12 +117,11 @@ function InitPortfolioDetail({ persona, appSlug }: { persona: Persona; appSlug?:
           ) : persona === "designer" ? (
             <div className="initDetailStatement">Design work for creators across education, finance, food, and culture—reaching a combined audience of 20M+.</div>
           ) : persona === "builder" ? (
-            <div className="initDetailRows">
-              <Link href="/portfolio/builder/apps/opener?view=init"><span>01</span>Opener <small>Mac app</small></Link>
-              <a href="https://www.figma.com/community/plugin/1644918796465469562/texometric" target="_blank" rel="noreferrer"><span>02</span>Texometric <small>Figma plugin</small></a>
-              <a href="https://www.figma.com/community/plugin/1638502049583160269/carousel-export-plugin" target="_blank" rel="noreferrer"><span>03</span>Carousel Export <small>Figma plugin</small></a>
-              <a href="https://github.com/01xharshu/hanumankind-india" target="_blank" rel="noreferrer"><span>04</span>Hanumankind <small>Concept website</small></a>
-            </div>
+            <>
+              <RecentProjects variant="init" />
+              <FigmaPlugins variant="init" />
+              <div className="initDetailRows"><Link href="/portfolio/builder/apps/opener?view=init"><span>01</span>Opener <small>Mac app</small></Link></div>
+            </>
           ) : (
             <div className="initDetailStatement">I started with a Samsung Galaxy J1 Ace and a dream of becoming a tech YouTuber. The format changed, but the instinct to make things public stayed.</div>
           )}

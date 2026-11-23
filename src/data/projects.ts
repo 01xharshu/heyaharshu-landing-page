@@ -1,12 +1,5 @@
 export const recentProjects = [
   {
-    name: "Advance Dev Tools",
-    description: "A developer tools extension I'm working on. Follow its progress on GitHub.",
-    status: "In development",
-    repoUrl: "https://github.com/01xharshu/Advance-dev-tools-extension",
-    liveUrl: "",
-  },
-  {
     name: "Tipsy Docy",
     description: "A browser-based document studio for editing documents and arranging PDF pages, with processing on your own device.",
     status: "Live web app",
@@ -34,4 +27,16 @@ export const recentProjects = [
     repoUrl: "https://github.com/01xharshu/hanumankind-india",
     liveUrl: "https://hanumankind-india.vercel.app",
   },
+  {"name": "MCU Order", "description": "Explore MCU Order on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/mcu-order", "liveUrl": "https://mcu-order-delta.vercel.app"},
+  {"name": "AnimusOS", "description": "Explore AnimusOS on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/AnimusOS", "liveUrl": "https://animus-os.vercel.app"},
+  {"name": "Odyssey", "description": "Explore Odyssey on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/Odyssey", "liveUrl": "https://Odyssey-nine-sable.vercel.app"},
+  {"name": "Video Transcripter Tool", "description": "A tool made for extracting transcribe from different videos, compile them in one single doc file. The output can be used to train AI Model to generate video script", "status": "Live website", "repoUrl": "https://github.com/01xharshu/video-transcripter-tool-mac", "liveUrl": "https://video-transcripter-green.vercel.app/"},
+  {"name": "Infiny Bookmark", "description": "Explore Infiny Bookmark on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/infiny-bookmark", "liveUrl": "https://infiny-bookmark.vercel.app"},
+  {"name": "Prompt Library", "description": "Explore Prompt Library on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/prompt-library", "liveUrl": "https://prompt-library-pearl.vercel.app"},
+  {"name": "Typing Racing Car", "description": "A fun weekend project.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/typing-racing-car", "liveUrl": "https://typing-racing-car.vercel.app"},
+  {"name": "Apple Notes Post Generator", "description": "A website for my writers friend to create and post made on apple notes, yes forget about taking screenshots.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/Apple-notes-post-generator", "liveUrl": "https://apple-notes-post-generator.vercel.app"},
+  {"name": "Polaroid Camera", "description": "Explore Polaroid Camera on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/Polaroid-Camera", "liveUrl": "https://polaroid-camera-beta.vercel.app"},
+  {"name": "Consistency Tracker", "description": "Explore Consistency Tracker on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/consistency-tracker", "liveUrl": "https://consistency-tracker-iota.vercel.app"},
+  {"name": "Investment Tracker", "description": "Explore Investment Tracker on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/Investment-tracker", "liveUrl": "https://investment-tracker-topaz.vercel.app"},
+  {"name": "Notion Masterclass", "description": "Explore Notion Masterclass on its website or view the project on GitHub.", "status": "Live website", "repoUrl": "https://github.com/01xharshu/notion-masterclass", "liveUrl": "https://notion-masterclass.vercel.app"},
 ];
